@@ -1,0 +1,157 @@
+Preparing and loading 311 Data in Neo4j
+=======================================
+
+Main Data source: http://data.vancouver.ca/datacatalogue/311caseLocationDetails.htm#details
+Supporting data: 
+- http://data.vancouver.ca/datacatalogue/311interactionVolume.htm
+- http://data.vancouver.ca/datacatalogue/311caseVolume.htm
+
+The procedure mentioned here is based on the blog article here: 
+
+http://blog.neo4j.org/2014/01/importing-data-to-neo4j-spreadsheet-way.html
+
+
+--------------------------------------------------------------------
+Preparing 311 data - Procedure
+--------------------------------------------------------------------
+
+- Download the excel version of the data documents
+- Open doc in Excel. Rename worksheet to 'CASE'
+- Add the following columns in the worksheet:
+	o. ID, 
+		- set value: 1..n
+	o. logged_on, 
+		- set value: =B2&TEXT(C2, "00")&TEXT(D2,"00")
+		- data columns used: B2 = Year, C2 = Month, D2 = Day
+	o. logged_at
+		- set value: =TEXT(F2, "00")&TEXT(G2,"00")
+		- data columns used: F2 = Hour, G2 = Minute
+	o. caseId
+		- set value: ="C"&B2&TEXT(C2, "00")&TEXT(A2,"00000")
+		- data columns used: B2 = Year, C2 = Month, A2 = ID
+	o. caseTypeId
+		- set value: =SUBSTITUTE(SUBSTITUTE(SUBSTITUTE(L2, " ", ""), "&",""), "-","")
+		- data columns used: L2 = Case_Type
+		Note: The function remove spaces, &, and - characters from the value.
+	o. localAreaId
+		- set value: =SUBSTITUTE(P2," ","")
+		- data columns used: P2 = Local_Area
+	o. deptId
+		- set value: =SUBSTITUTE(W2," ","")
+		- data columns used: S2 = Department
+	o. divId
+		- set value: =SUBSTITUTE(Y2," ","")
+		- data columns used: Y2 = Division
+
+- Create another worksheet called 'QUERIES'.
+- In 'QUERIES' worksheet, add the following column to define node and relationship queries:
+	o. CASE NODE QUERIES
+		- ="CREATE (:Case {caseId:'"&CASE!I2&"', logged_on:'"&CASE!E2&"', logged_at:'"&CASE!H2&"'});"
+		- where I2 = caseId, E2 = logged_on, H2 = logged_at
+	o. CASETYPE NODE QUERIES
+		- ="MERGE (:CaseType {caseTypeId:'"&CASE!K2&"', type:'"&CASE!L2&"'});"
+		- where K2 = caseTypeId, L2 = Case_Type
+	o. CASE-[OF_TYPE]->CASETYPE RELATIONSHIP QUERIES
+		- ="WITH 1 as dummy MATCH (cc:Case {caseId:'"&CASE!I2&"'}), (ct:CaseType {caseTypeId:'"&CASE!K2&"'})"&" CREATE UNIQUE (cc)-[r:OF_TYPE]->(ct);"
+		- where I2 = caseId, K2 = caseTypeId
+	o. LOCALAREA NODE QUERIES
+		- ="MERGE (:LocalArea {areaId:'"&CASE!Q2&"', areaName:'"&CASE!P2&"'});"
+		- where Q2 = localAreaId, P2 = Local_Area
+	o. CASE-[REPORTED_FOR]->LOCALAREA RELATIONSHIP QUERIES
+		- ="WITH 1 as dummy MATCH (cc:Case {caseId:'"&CASE!I2&"'}), (la:LocalArea {areaId:'"&CASE!Q2&"'})"&" CREATE UNIQUE (cc)-[r:REPORTED_FOR]->(la);"
+		- where I2 = caseId, Q2 = localAreaId
+	o. DEPT NODE QUERIES
+		- ="MERGE (:Dept {deptId:'"&CASE!R2&"', deptName:'"&CASE!J2&"'});"
+		- where R2 = DeptId, J2 = Department
+	o. DIV NODE QUERIES
+		- ="MERGE (:Div {divId:'"&CASE!S2&"', divName:'"&CASE!K2&"'});"
+		- where S2 = divId, K2 = Division
+	o. DEPT-[BELONG_TO]->DIV RELATIONSHIP QUERIES
+		- ="WITH 1 as dummy MATCH (dp:Dept {deptId:'"&X2&"'}), (dv:Div {divId:'"&Z2&"'})"&" CREATE UNIQUE (dp)-[r:BELONG_TO]->(dv);"
+		- where X2 = deptId, Z2 = divId
+	o. CASETYPE-[HANDLED_BY]->DIV RELATIONSHIP QUERIES
+		- ="WITH 1 as dummy MATCH (ct:CaseType {caseTypeId:'"&K2&"'}), (dv:Div {divId:'"&Z2&"'})"&" CREATE UNIQUE (ct)-[r:HANDLED_BY]->(dv);"
+		- where K2 = caseTypeId, Z2 = divId
+
+Note: DEPT, DIV, BELONG_TO, and HANDLED_BY queries may be done by the 311 Case Volume Data instead
+
+- Create data1.txt text file, then: 
+	- Add 'BEGIN' line
+	- Copy and paste the following queries to this file, in order:
+		CASE NODE QUERIES
+		CASETYPE NODE QUERIES
+		CASE-[OF_TYPE]->CASETYPE RELATIONSHIP QUERIES
+	- Add 'COMMIT' line
+	- Add 'BEGIN' line
+	- Copy and paste the following queries to this file, in order:
+		LOCALAREA NODE QUERIES
+		CASE-[REPORTED_FOR]->LOCALAREA RELATIONSHIP QUERIES
+	- Add 'COMMIT' line
+
+- Manually (at this point) compile distinct queries for the following queries:
+	- DEPT-[BELONG_TO]->DIV RELATIONSHIP QUERIES
+	- CASETYPE-[HANDLED_BY]->DIV RELATIONSHIP QUERIES
+
+Note: The spreadsheet will create lots of duplicate queries for above. 
+If we don't remove the duplicate and execute these queries, Neo4j will create duplicate relationships
+which is not what we want.
+
+Note: For Node queries duplicates are ok since we can use the MERGE command which will create the 
+node only when it does not yet exist (apparently there is no similar function for relationship)
+	
+- Create data2.txt text file, then: 
+	- Add 'BEGIN' line
+	- Copy and paste the following queries to this file, in order:
+		DEPT NODE QUERIES
+		DIV NODE QUERIES
+	- Add the distinct queries compiled in previous step:
+		DEPT-[BELONG_TO]->DIV RELATIONSHIP QUERIES
+		CASETYPE-[HANDLED_BY]->DIV RELATIONSHIP QUERIES
+	- Add 'COMMIT' line
+	
+--------------------------------------------------------------------
+Loading 311 Data to Neo4j database - Procedure
+--------------------------------------------------------------------
+
+Pre-requisites:
+- Neo4j has been installed 
+- data1.txt and data2.txt are available as output of "Preparing 311 data - Procedure"
+
+We will be using Neo4jShell utility to load data.
+
+Procedure
+
+- Make sure neo4j server is not running (Note: just Ctrl+C on the server console window)
+
+- cd: 
+
+cd c:/neo4j-community-2.0.1/bin
+
+- load data1.txt: 
+
+./Neo4jShell.bat -config ../conf/neo4j.properties -path c:/SwiftAvenue_World/Neo4j_DB/mycity -file data1.txt
+
+Note: 
+	-config param: the global neo4j properties (optional)
+	-path param: the neo4j database where data will be loaded to
+	-file param: the data file to load
+
+- load data2.txt:
+
+./Neo4jShell.bat -config ../conf/neo4j.properties -path c:/SwiftAvenue_World/Neo4j_DB/mycity -file data2.txt
+
+- start neo4j server:
+
+Neo4j.bat
+
+- Go to the neo4j db browser: http://localhost:7474
+
+- do some queries and verify data was correctly imported, examples:
+
+MATCH (n:LocalArea)-[r]-(b) return n.areaId, count(*)
+
+MATCH (n:`Dept`) RETURN n
+
+MATCH (n:`CaseType`) RETURN n
+
+	
