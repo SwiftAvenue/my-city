@@ -1,0 +1,30 @@
+Get Grails Webapp Setup with Groovy Grails Toolsuite
+----------------------------------------------------
+
+-make sure you have the appropriate versions of grails and ggts installed (see the COTS document for versions)
+-checkout source
+-in the grails folder, run grails integrate-with --eclipse
+    -- This will create the .project and .classpath files for eclise
+-open ggts in a new workspace
+-file-->import-->existing project into workspace
+-point at the grails folder from the checkout and click 'Finish"
+-eclipse will promt you for Grails 2.3.5 to be configured.  Say YES.
+    -- you will need to point at your local grails install
+
+-- now the console will log a bunch of stuff for environment configuration for grails.
+
+-- eclipse then shows one error in the problems tab - compiler mismatch.  To fix this, I right clicked on the error in the Problems view and the did quick fix option 1.  Seemed to work...
+
+
+Running the Webapp in GGTS
+--------------------------
+
+In GGTS, goto Navigate --> Open Grails Command Prompt
+At the prompt, type RunApp
+
+You should see the server startup at localhost.  
+
+Try to view it in a browser at localhost:8080/mycity
+
+
+
