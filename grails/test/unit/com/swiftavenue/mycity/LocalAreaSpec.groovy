@@ -1,4 +1,4 @@
-package mycity
+package com.swiftavenue.mycity
 
 import grails.test.mixin.TestFor
 import spock.lang.Specification
