@@ -154,4 +154,31 @@ MATCH (n:`Dept`) RETURN n
 
 MATCH (n:`CaseType`) RETURN n
 
+- Find the number of cases for a given local area:
+
+match (n:`LocalArea` {areaName:"Fairview"})--(c:`Case`) return count(*)
+
+- For local area 'Fairview', return the case types and number of cases of that case type, 
+ordered by number of cases (descending)
+
+match (n:`LocalArea` {areaName:"Fairview"})<-[r]-(c:`Case`)-[r2]->(ct) 
+return ct.type, count(*) as numCases order by numCases desc
+
+Some results (For Fairview area, it indicates that resident complains most on missing garbage pickup):
+
+Missed Garbage Pickup	169
+Abandoned Garbage Pickup - City Property & Parks	161
+Cart - Apartment Recycling	156
+Street Cleaning & Debris Pickup	149
+Missed Yard Trimmings and Food Scraps Pickup	147
+Missed Apartment Recycling Pickup	139
+Parks Litter Can or Cart Request	138
+Cart - Green (Yard Trimmings and Food Scraps)	137
+Street Litter Can Request	137
+Cart - Garbage	135
+Missed Recycling Pickup	134
+Recycling Box Request	133
+Recycling Bag Request	133
+Dead Marine Life Pickup	132
+...<cut>...
 	
