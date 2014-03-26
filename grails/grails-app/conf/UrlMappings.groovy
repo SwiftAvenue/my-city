@@ -1,13 +1,9 @@
 class UrlMappings {
-
-	static mappings = {
-        "/$controller/$action?/$id?(.$format)?"{
-            constraints {
-                // apply constraints here
-            }
-        }
-
+    static mappings = {
+        "/localAreas" (controller:"localArea", action: "index")
+        "/localAreasSummaries" (controller:"localAreaSummaries", action: "index")
+        "/localAreasSummaries/area/$id" (controller:"localAreaSummaries", action: "show")
         "/"(view:"/index")
         "500"(view:'/error')
-	}
+    }
 }

@@ -16,5 +16,7 @@ class LocalAreaSpec extends Specification {
     }
 
     void "test something"() {
+       when: "run test"
+       then: "verify"
     }
 }

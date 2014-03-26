@@ -86,6 +86,8 @@ grails.hibernate.cache.queries = false
 environments {
     development {
         grails.logging.jul.usebridge = true
+	// Enable pretty print for JSON and XML
+	grails.converters.default.pretty.print = true
     }
     production {
         grails.logging.jul.usebridge = false

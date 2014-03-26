@@ -44,12 +44,27 @@ grails.project.dependency.resolution = {
         //mavenRepo "http://repository.codehaus.org"
         //mavenRepo "http://download.java.net/maven/2/"
         //mavenRepo "http://repository.jboss.com/maven2/"
+
+	// The following is maven repo for neo4j
+	// But currently somehow does not work.
+	mavenRepo "http://m2.neo4j.org/content/repositories/releases/"
     }
 
     dependencies {
         // specify dependencies here under either 'build', 'compile', 'runtime', 'test' or 'provided' scopes e.g.
         // runtime 'mysql:mysql-connector-java:5.1.27'
         // runtime 'org.postgresql:postgresql:9.3-1100-jdbc41'
+	compile 'org.neo4j:neo4j:2.0.1'
+	test 'javax:javaee-api:7.0'
+	test 'com.sun.jersey:jersey-server:1.18.1'
+	test 'com.sun.jersey:jersey-client:1.18.1'
+	test 'org.codehaus.jackson:jackson-mapper-asl:1.9.7'
+	test 'org.codehaus.jackson:jackson-core-asl:1.9.7'
+	runtime 'javax:javaee-api:7.0'
+	runtime 'com.sun.jersey:jersey-server:1.18.1'
+	runtime 'com.sun.jersey:jersey-client:1.18.1'
+	runtime 'org.codehaus.jackson:jackson-mapper-asl:1.9.7'
+	runtime 'org.codehaus.jackson:jackson-core-asl:1.9.7'
     }
 
     plugins {

@@ -6,8 +6,8 @@ import spock.lang.Specification
 /**
  * See the API for {@link grails.test.mixin.web.ControllerUnitTestMixin} for usage instructions
  */
-@TestFor(LocalAreaController)
-class LocalAreaControllerSpec extends Specification {
+@TestFor(LocalAreaSummariesController)
+class LocalAreaSummariesControllerSpec extends Specification {
 
     def setup() {
     }
@@ -16,7 +16,5 @@ class LocalAreaControllerSpec extends Specification {
     }
 
     void "test something"() {
-       when: "run test"
-       then: "verify"
     }
 }
