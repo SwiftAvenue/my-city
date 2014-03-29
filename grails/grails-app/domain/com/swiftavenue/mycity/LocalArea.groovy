@@ -1,8 +1,7 @@
 package com.swiftavenue.mycity
 
-import grails.rest.*
+import grails.rest.Resource
 
-@Resource(uri='localArea')
 class LocalArea {
 
 	String name

@@ -8,12 +8,14 @@ import com.swiftavenue.mycity.LocalAreaSummary
 @Transactional
 class DataRetrievalService {
 
+    def grailsApplication   // grails provided object 
+
     /* 
     * Retrieves the list of all local areas. Return the list of local area names 
     */
     def retrieveLocalAreas() {
 	def queryStr = "MATCH (n:LocalArea) return n.areaName as areaName" 
-	def dbc = DBConnection.instance
+	def dbc = getDb()
 	// dbc.display()
 	def qryResults = dbc.query(queryStr)
 	def results = []
@@ -28,7 +30,7 @@ class DataRetrievalService {
     */
     def retrieveLocalAreaSummaries() {
 	def queryStr = "MATCH (n:LocalArea)-[r]-(b) return n.areaId as area, count(*) as total"
-	def dbc = DBConnection.instance
+	def dbc = getDb()
 	// dbc.display()    // enable to verify that connection is a singleton 
 	def qryResults = dbc.query(queryStr)
 	// Query results are a list of rows. Each row is a map of column-value pairs 
@@ -52,7 +54,7 @@ class DataRetrievalService {
     */
     def retrieveLocalAreaSummary(pAreaId) {
 	def queryStr = "MATCH (n:LocalArea)-[r]-(b) where n.areaId = '${pAreaId}' return n.areaId as area, count(*) as total"
-	def dbc = DBConnection.instance
+	def dbc = getDb()
 	// dbc.display()    // enable to verify that connection is a singleton 
 	def qryResults = dbc.query(queryStr)
 	// Query results are a list of rows. Each row is a map of column-value pairs 
@@ -65,6 +67,12 @@ class DataRetrievalService {
 	   }
 	   las // return the results
 	}
+    }
+
+    private def getDb() {
+	def dbc = DBConnection.instance
+	dbc.init(grailsApplication.config.mycity.dburl)
+	return dbc
     }
 
 }

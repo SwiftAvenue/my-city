@@ -6,10 +6,19 @@
 //                             "classpath:${appName}-config.groovy",
 //                             "file:${userHome}/.grails/${appName}-config.properties",
 //                             "file:${userHome}/.grails/${appName}-config.groovy"]
-
 // if (System.properties["${appName}.config.location"]) {
 //    grails.config.locations << "file:" + System.properties["${appName}.config.location"]
 // }
+
+// Note (Dwi): set the external config file that contain app properties. This allows 
+// these properties to be changed without having to update the war file. 
+// This is the content of the external properties. Uncomment this if we want to 
+// put the properties in this file instead.  
+// mycity {
+//    dburl = "http://localhost:7474/db/data"
+// }
+grails.config.locations = [ "file:${userHome}/.grails/${appName}-config.groovy"]
+
 
 grails.project.groupId = appName // change this to alter the default package name and Maven publishing destination
 

@@ -17,10 +17,17 @@ import org.neo4j.rest.graphdb.util.QueryResult
  */
 @Singleton
 class DBConnection {
-    // TODO: Externalize the url into a configuration
-    def connectionUrl = "http://localhost:7474/db/data"
-    RestAPI api = new RestAPIFacade(connectionUrl)
-    RestCypherQueryEngine engine = new RestCypherQueryEngine(api)
+    private static RestAPI api 
+    private static RestCypherQueryEngine engine 
+
+    // initialize the connection object. 
+    def init(url) {
+       if (!api) {
+	  println "Creating new RestAPIFacade..."
+          api = new RestAPIFacade(url)
+          engine = new RestCypherQueryEngine(api)
+       }
+    }
 
     def query(queryString) { 
         QueryResult<Map<String,Object>> result = engine.query(queryString, Collections.EMPTY_MAP)
