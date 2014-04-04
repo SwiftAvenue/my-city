@@ -1,0 +1,9 @@
+<h2>{{msg}}</h2>
+
+<p>Summary of Local Areas (Number of Cases)</p>
+
+        <ul>
+            <li ng-repeat="local in localareas">
+                {{local.areaName}}: {{local.numCases}}
+            </li>
+        </ul>
