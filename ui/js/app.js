@@ -1,19 +1,19 @@
-var phoneCatApp = angular.module('phoneCatApp', [
-    'ngRoute',
-    'ngResource',
-    'phoneCatControllers'
-]);
+var  myCityWeb = angular.module('myCityWeb',['ngRoute','ngResource','myCity.services','myCity.controllers']);
 
-phoneCatApp.config(['$routeProvider',
+myCityWeb.config(['$routeProvider',
     function($routeProvider) {
         $routeProvider.
-            when('/phones', {
-                templateUrl: 'partials/phone-list.html',
-                controller: 'PhoneListCtrl'
-            }).
             when('/local', {
                 templateUrl: 'partials/local-areas.html',
                 controller: 'LocalAreaCtrl'
+            }).
+            when('/about', {
+                templateUrl: 'partials/about.html',
+                controller: 'AboutCtrl'
+            }).
+            when('/contact', {
+                templateUrl: 'partials/contact.html',
+                controller: 'ContactCtrl'
             }).
             otherwise({
                 redirectTo: '/local'

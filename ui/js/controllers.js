@@ -1,35 +1,17 @@
-var phoneCatApp = angular.module('phoneCatControllers', []);
+var myCityWeb = angular.module('myCity.controllers',[]);
 
-phoneCatApp.controller('PhoneListCtrl', ['$scope',
-function($scope) {
-    $scope.phones = [
-        {'name': 'Nexus S',
-         'snippet': 'Fas just got faster with Nexus S'},
-        {'name': 'Samsung Galaxy 5',
-            'snippet': 'Samsung.. where the world lives'},
-        {'name': 'Iphone 5',
-            'snippet': 'Iphone 5.. the king'}
-    ]
+    myCityWeb.controller('LocalAreaCtrl',['$scope','localAreaServices',function($scope,localAreaServices){
+    $scope.localareas = {};
+    localAreaServices.query(function(response){
+        $scope.localareas = response;
+    });
 
-    $scope.sayHi = "Hello Angular!!!"
 }]);
 
-phoneCatApp.controller('LocalAreaCtrl', ['$scope', '$resource',
-    function($scope, $resource) {
-        var url = 'http://mycity2.swiftavenue.com/mycity/api/localAreasSummaries'
+myCityWeb.controller('AboutCtrl',['$scope','localAreaServices',function($scope,localAreaServices){
+    $scope.aboutMsg = 'About msg';
+}]);
 
-        $scope.msg = "Local Areas Summary";
-        var res = $resource(url,{}, {
-            get: {
-                method: 'GET',
-                isArray: true
-            }
-        });
-        var res2 = $resource(url,{}, {
-            get: {
-                method: 'GET',
-                isArray: true
-            }
-        });
-        $scope.localareas = res2.get();
+myCityWeb.controller('ContactCtrl',['$scope','localAreaServices',function($scope,localAreaServices){
+    $scope.contactMsg = 'Contact msg';
 }]);

@@ -14,9 +14,9 @@
 // these properties to be changed without having to update the war file. 
 // This is the content of the external properties. Uncomment this if we want to 
 // put the properties in this file instead.  
-// mycity {
-//    dburl = "http://localhost:7474/db/data"
-// }
+ mycity {
+    dburl = "http://107.170.80.133:7474/db/data"
+ }
 grails.config.locations = [ "file:${userHome}/.grails/${appName}-config.groovy"]
 
 
