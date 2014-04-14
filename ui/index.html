@@ -1,19 +1,32 @@
 <!DOCTYPE html>
-<html lang="en" ng-app="phoneCatApp">
+<html lang="en" ng-app="myCityWeb">
 <head>
     <meta charset="UTF-8">
-    <title>Angular Refresher</title>
-    <link rel="stylesheet" href="css/app.css">
-    <link rel="stylesheet" href="css/bootstrap.css">
+    <title>Vancouver City Statistics</title>
+    <link rel="stylesheet" href="lib/bootstrap/css/bootstrap.css">
+    <link rel="stylesheet" href="lib/bootstrap/css/bootstrap-theme.min.css">
+    <!-- Add custom CSS here -->
+    <link href="lib/bootstrap/css/half-slider.css" rel="stylesheet">
 </head>
 <body>
 <p>{{sayHi}}</p>
 <div ng-view></div>
 
-<script src="lib/angular.js"></script>
-<script src="lib/angular-route.js"></script>
-<script src="lib/angular-resource.js"></script>
+<!-- JavaScript -->
+<script src="lib/bootstrap/js/jquery-1.10.2.js"></script>
+<script src="lib/bootstrap/js/bootstrap.js"></script>
+
+<!-- Script to Activate the Carousel -->
+<script>
+    $('.carousel').carousel({
+        interval: 3000 //changes the speed
+    })
+</script>
+<script src="lib/angular/angular.js"></script>
+<script src="lib/angular/angular-route.js"></script>
+<script src="lib/angular/angular-resource.js"></script>
 <script src="js/app.js"></script>
 <script src="js/controllers.js"></script>
+<script src="js/services.js"></script>
 </body>
 </html>
