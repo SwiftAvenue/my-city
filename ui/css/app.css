@@ -4,6 +4,9 @@ body {
   padding-top: 20px;
 }
 
+.pagination a {
+    cursor: pointer;
+}
 
 .phone-images {
   width: 450px;

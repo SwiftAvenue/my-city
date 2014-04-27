@@ -1,16 +1,17 @@
 package com.swiftavenue.mycity
 
-import grails.rest.Resource
 import groovy.transform.EqualsAndHashCode;
 import groovy.transform.ToString
 
 @ToString(includeNames = true, includeFields = true, excludes = '')
 @EqualsAndHashCode
-class LocalArea {
-	String name
-	String areaId
+class Case {
+	String caseId;
+	String loggedAt;
+	String loggedOn;
+	CaseType type;
 	
-    static constraints = {
-		areaId nullable:true
-    }
+	static constraints = {
+	}
+
 }

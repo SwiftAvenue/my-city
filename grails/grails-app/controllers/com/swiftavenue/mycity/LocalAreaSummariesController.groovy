@@ -11,7 +11,6 @@ class LocalAreaSummariesController extends RestfulController {
     def  dataRetrievalService
 
     LocalAreaSummariesController() {
-	    super(LocalAreaSummary)
     }
 
     def index() { 

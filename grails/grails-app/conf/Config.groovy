@@ -74,6 +74,10 @@ grails {
 }
  
 grails.converters.encoding = "UTF-8"
+
+// See: http://stackoverflow.com/questions/19144246/grails-get-child-domain-objects
+grails.converters.json.default.deep=true
+
 // scaffolding templates configuration
 grails.scaffolding.templates.domainSuffix = 'Instance'
 

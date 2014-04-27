@@ -14,8 +14,8 @@ class LocalAreaController extends RestfulController{
     }
 
     def index() {
-	def results = dataRetrievalService.retrieveLocalAreas()
-	respond results
+	   def results = dataRetrievalService.retrieveLocalAreas()
+	   respond results
     }
 	
 }

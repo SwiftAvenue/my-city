@@ -1,5 +1,5 @@
 COTS Versions
 -------------
 
-Grails 2.3.5
-GGTS 3.4.0
+Grails 2.3.7
+GGTS 3.5.0

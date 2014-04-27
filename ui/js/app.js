@@ -1,10 +1,17 @@
-var  myCityWeb = angular.module('myCityWeb',['ngRoute','ngResource','myCity.services','myCity.controllers']);
+'use strict';
 
-myCityWeb.config(['$routeProvider',
+var  myCityApp = angular.module('myCityApp',
+        ['ngRoute','ngResource', 'ui.bootstrap', 'myCity.filters', 'myCity.services']);
+
+myCityApp.config(['$routeProvider',
     function($routeProvider) {
         $routeProvider.
-            when('/local', {
-                templateUrl: 'partials/local-areas.html',
+            when('/city', {
+                templateUrl: 'partials/city.html',
+                controller: 'CityCtrl'
+            }).
+            when('/local/:localArea', {
+                templateUrl: 'partials/localArea.html',
                 controller: 'LocalAreaCtrl'
             }).
             when('/about', {
@@ -16,7 +23,7 @@ myCityWeb.config(['$routeProvider',
                 controller: 'ContactCtrl'
             }).
             otherwise({
-                redirectTo: '/local'
+                redirectTo: '/city'
             });
 
     }]);
