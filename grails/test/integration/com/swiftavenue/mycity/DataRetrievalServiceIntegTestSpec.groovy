@@ -53,6 +53,16 @@ class DataRetrievalServiceIntegTestSpec extends Specification {
 		   results.each() { println "Case Type: ${it.caseTypeName} - Num Cases: ${it.numCases}" }
 	}
 	
+	void "test retrieve case types grouped by month for a specific local area"() {
+		when: 'create service and retrieve data'
+		   String areaId = "Fairview"
+		   def results = service.retrieveMonthlyCaseTypeSummariesForLocalArea(areaId)
+		then: 'service should return results'
+		   assert results
+		   assert results.size() > 0
+		   results.each() { println "Case Type: ${it.month}: ${it.caseTypeName} - Num Cases: ${it.numCases}" }
+	}
+	
 	void "test retrieve cases for a specific local area and case type"() {
 		when: 'create service and retrieve data'
 		   def areaId = "Fairview"

@@ -20,6 +20,13 @@ class CaseController extends RestfulController {
 	   respond results
     }
 	
+	def caseTypesMonthlyForArea() {
+		println "Parameter: ${params.areaName}"
+		def results = dataRetrievalService.retrieveMonthlyCaseTypeSummariesForLocalArea(params.areaName)
+		respond results
+
+	}
+	
 	def casesInAreaForCaseType() {
 		println "Parameters: ${params.areaName} - ${params.caseTypeId}"
 		def results = dataRetrievalService.retrieveCasesForLocalAreaAndCaseType(params.areaName, params.caseTypeId)

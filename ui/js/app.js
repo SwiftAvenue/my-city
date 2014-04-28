@@ -1,7 +1,7 @@
 'use strict';
 
 var  myCityApp = angular.module('myCityApp',
-        ['ngRoute','ngResource', 'ui.bootstrap', 'myCity.filters', 'myCity.services']);
+        ['ngRoute','ngResource', 'ui.bootstrap', 'angularCharts', 'myCity.filters', 'myCity.services']);
 
 myCityApp.config(['$routeProvider',
     function($routeProvider) {

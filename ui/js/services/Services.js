@@ -1,6 +1,6 @@
 var services = angular.module('myCity.services', ['ngResource']);
 
-services.factory('localAreaServices', function ($resource) {
+services.factory('localAreaServices', function ($resource, $q) {
 
     var baseUrl = 'http://localhost:7080/mycity/api/';
     var localAreaListResource = $resource(baseUrl + 'localAreas', {},
@@ -9,6 +9,11 @@ services.factory('localAreaServices', function ($resource) {
         }
     );
     var caseTypesResource = $resource(baseUrl + 'cases/area/:localArea', {},
+        {
+            get: { method: 'GET', isArray: true }
+        }
+    );
+    var monthlyCaseTypesResource = $resource(baseUrl + 'cases/area/:localArea/m', {},
         {
             get: { method: 'GET', isArray: true }
         }
@@ -28,6 +33,16 @@ services.factory('localAreaServices', function ($resource) {
                 localArea : locArea
             });
             return locAreaCaseTypes;
+        },
+
+        getMonthlyCaseTypesForLocalArea: function(locArea) {
+            var d = $q.defer();
+            monthlyCaseTypesResource.get({
+                localArea : locArea
+            }, function(data) {
+                d.resolve(data);
+            });
+            return d.promise;
         }
     }
 });

@@ -69,9 +69,31 @@
                                  first-text="&laquo;"
                                  last-text="&raquo;">
                             </div>
+                            <div class="charts">
+                                <div ac-chart="chartType" ac-data="chartData" ac-config="chartConfig" id='chart' class='chart'></div>
+                            </div>
+                            <div>&nbsp;<p/></div>
                         </accordion-group>
-                        <accordion-group heading="Category A">
+                        <accordion-group heading="Monthly Case Types">
                             This is category A information for {{currentLocalArea}}
+
+                            <table class="table table-condensed table-hover table-bordered table-striped">
+                                <thead>
+                                <tr ng-class="'header'">
+                                    <th style="width: 14px" class="no-wrap">Month</th>
+                                    <th style="width: 14px" class="no-wrap">Case Type</th>
+                                    <th style="width: 14px" class="no-wrap">Number of Cases</th>
+                                </tr>
+                                </thead>
+                                <tr ng-repeat="ct in monthlyCaseTypes |
+                                   orderBy:'numCases':true |
+                                   startFrom:(grid.currentPage-1) * 10 |
+                                   limitTo:10">
+                                    <td>{{ct.month}}</td>
+                                    <td>{{ct.caseTypeName}}</td>
+                                    <td>{{ct.numCases}}</td>
+                                </tr>
+                            </table>
                         </accordion-group>
                         <accordion-group heading="Category B">
                             This is category B information for {{currentLocalArea}}

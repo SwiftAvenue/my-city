@@ -9,6 +9,7 @@ import groovy.transform.ToString
 @ToString(includeNames = true, includeFields = true, excludes = '')
 @EqualsAndHashCode
 class CaseTypeSummary {
+	String month
 	String caseTypeId
     String caseTypeName
     Integer numCases

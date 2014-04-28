@@ -59,7 +59,7 @@ class DataRetrievalService {
     /* 
     * Retrieve the summary of a specific local area 
     */
-    def retrieveLocalAreaSummary(pAreaId) {
+    def retrieveLocalAreaSummary(String pAreaId) {
 		def queryStr = "MATCH (n:LocalArea)-[r]-(b) where n.areaId = '${pAreaId}' return n.areaId as area, count(*) as total"
 		def dbc = getDb()
 		// dbc.display()    // enable to verify that connection is a singleton
@@ -79,7 +79,7 @@ class DataRetrievalService {
 	/*
 	 * Retrieve Case Type summaries for a given local area
 	 */
-	def retrieveCaseTypeSummariesForLocalArea(pAreaId) {
+	def retrieveCaseTypeSummariesForLocalArea(String pAreaId) {
 		def queryStr = "match (n:LocalArea)<-[:REPORTED_FOR]-(c:Case)-[:OF_TYPE]->(ct) where n.areaId = '${pAreaId}' return " +
 		                  "ct.caseTypeId as caseTypeId, " +
 		                  "ct.type as typeName, count(*) as totalCases"
@@ -89,6 +89,31 @@ class DataRetrievalService {
 		for (entry in qryResults) {
 			def cts = new CaseTypeSummary();
 			cts.with{
+				month = 'N/A'
+				caseTypeId = entry.caseTypeId
+				caseTypeName = entry.typeName ?: "UNDEFINED"
+				numCases = entry.totalCases
+			}
+			results.add(cts)
+		}
+		results // return the results
+	}
+	
+	/*
+	 * Retrieve Case Type summaries, group by month, for a given local area
+	 */
+	def retrieveMonthlyCaseTypeSummariesForLocalArea(String pAreaId) {
+		def queryStr = "match (n:LocalArea)<-[:REPORTED_FOR]-(c:Case)-[:OF_TYPE]->(ct) where n.areaId = '${pAreaId}'" +
+		" return substring(c.logged_on,0,6) as month_reported, ct.caseTypeId as caseTypeId, " + 
+		" ct.type as typeName, count(*) as totalCases order by caseTypeId"
+		
+		def dbc = getDb()
+		def qryResults = dbc.query(queryStr)
+		def results = []
+		for (entry in qryResults) {
+			def cts = new CaseTypeSummary();
+			cts.with{
+				month = entry.month_reported
 				caseTypeId = entry.caseTypeId
 				caseTypeName = entry.typeName ?: "UNDEFINED"
 				numCases = entry.totalCases
