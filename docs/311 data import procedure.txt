@@ -24,7 +24,7 @@ Preparing 311 data - Procedure
 		- set value: =B2&TEXT(C2, "00")&TEXT(D2,"00")
 		- data columns used: B2 = Year, C2 = Month, D2 = Day
 	o. logged_at
-		- set value: =TEXT(F2, "00")&TEXT(G2,"00")
+		- set value: =TEXT(E2, "00")&TEXT(F2,"00")
 		- data columns used: F2 = Hour, G2 = Minute
 	o. caseId
 		- set value: ="C"&B2&TEXT(C2, "00")&TEXT(A2,"00000")
@@ -37,22 +37,22 @@ Preparing 311 data - Procedure
 		- set value: =SUBSTITUTE(P2," ","")
 		- data columns used: P2 = Local_Area
 	o. deptId
-		- set value: =SUBSTITUTE(W2," ","")
+		- set value: =SUBSTITUTE(J2," ","")
 		- data columns used: S2 = Department
 	o. divId
-		- set value: =SUBSTITUTE(Y2," ","")
+		- set value: =SUBSTITUTE(K2," ","")
 		- data columns used: Y2 = Division
 
 - Create another worksheet called 'QUERIES'.
 - In 'QUERIES' worksheet, add the following column to define node and relationship queries:
 	o. CASE NODE QUERIES
-		- ="CREATE (:Case {caseId:'"&CASE!I2&"', logged_on:'"&CASE!E2&"', logged_at:'"&CASE!H2&"'});"
+		- ="CREATE (:Case {caseId:'"&CASE!I2&"', logged_on:'"&CASE!G2&"', logged_at:'"&CASE!H2&"'});"
 		- where I2 = caseId, E2 = logged_on, H2 = logged_at
 	o. CASETYPE NODE QUERIES
-		- ="MERGE (:CaseType {caseTypeId:'"&CASE!K2&"', type:'"&CASE!L2&"'});"
+		- ="MERGE (:CaseType {caseTypeId:'"&CASE!M2&"', type:'"&CASE!L2&"'});"
 		- where K2 = caseTypeId, L2 = Case_Type
 	o. CASE-[OF_TYPE]->CASETYPE RELATIONSHIP QUERIES
-		- ="WITH 1 as dummy MATCH (cc:Case {caseId:'"&CASE!I2&"'}), (ct:CaseType {caseTypeId:'"&CASE!K2&"'})"&" CREATE UNIQUE (cc)-[r:OF_TYPE]->(ct);"
+		- ="WITH 1 as dummy MATCH (cc:Case {caseId:'"&CASE!I2&"'}), (ct:CaseType {caseTypeId:'"&CASE!M2&"'})"&" CREATE UNIQUE (cc)-[r:OF_TYPE]->(ct);"
 		- where I2 = caseId, K2 = caseTypeId
 	o. LOCALAREA NODE QUERIES
 		- ="MERGE (:LocalArea {areaId:'"&CASE!Q2&"', areaName:'"&CASE!P2&"'});"
@@ -67,10 +67,10 @@ Preparing 311 data - Procedure
 		- ="MERGE (:Div {divId:'"&CASE!S2&"', divName:'"&CASE!K2&"'});"
 		- where S2 = divId, K2 = Division
 	o. DEPT-[BELONG_TO]->DIV RELATIONSHIP QUERIES
-		- ="WITH 1 as dummy MATCH (dp:Dept {deptId:'"&X2&"'}), (dv:Div {divId:'"&Z2&"'})"&" CREATE UNIQUE (dp)-[r:BELONG_TO]->(dv);"
+		- ="WITH 1 as dummy MATCH (dp:Dept {deptId:'"&CASE!R2&"'}), (dv:Div {divId:'"&CASE!S2&"'})"&" CREATE UNIQUE (dp)-[r:BELONG_TO]->(dv);"
 		- where X2 = deptId, Z2 = divId
 	o. CASETYPE-[HANDLED_BY]->DIV RELATIONSHIP QUERIES
-		- ="WITH 1 as dummy MATCH (ct:CaseType {caseTypeId:'"&K2&"'}), (dv:Div {divId:'"&Z2&"'})"&" CREATE UNIQUE (ct)-[r:HANDLED_BY]->(dv);"
+		- ="WITH 1 as dummy MATCH (ct:CaseType {caseTypeId:'"&CASE!M2&"'}), (dv:Div {divId:'"&CASE!S2&"'})"&" CREATE UNIQUE (ct)-[r:HANDLED_BY]->(dv);"
 		- where K2 = caseTypeId, Z2 = divId
 
 Note: DEPT, DIV, BELONG_TO, and HANDLED_BY queries may be done by the 311 Case Volume Data instead
