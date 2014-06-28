@@ -15,7 +15,7 @@
 // This is the content of the external properties. Uncomment this if we want to 
 // put the properties in this file instead.  
  mycity {
-    dburl = "http://107.170.80.133:7474/db/data"
+    dburl = "http://107.170.174.12:5432"
  }
 grails.config.locations = [ "file:${userHome}/.grails/${appName}-config.groovy"]
 

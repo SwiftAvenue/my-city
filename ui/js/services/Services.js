@@ -2,7 +2,7 @@ var services = angular.module('myCity.services', ['ngResource']);
 
 services.factory('localAreaServices', function ($resource, $q) {
 
-    var baseUrl = 'http://localhost:7080/mycity/api/';
+    var baseUrl = 'http://localhost:8080/mycity/api/';
     var localAreaListResource = $resource(baseUrl + 'localAreas', {},
         {
             get: { method: 'GET', isArray: true }

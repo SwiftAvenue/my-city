@@ -54,6 +54,7 @@ grails.project.dependency.resolution = {
         // specify dependencies here under either 'build', 'compile', 'runtime', 'test' or 'provided' scopes e.g.
         // runtime 'mysql:mysql-connector-java:5.1.27'
         // runtime 'org.postgresql:postgresql:9.3-1100-jdbc41'
+        runtime 'postgresql:postgresql:9.1-901.jdbc4'
 	compile 'org.neo4j:neo4j:2.0.1'
 	test 'javax:javaee-api:7.0'
 	test 'com.sun.jersey:jersey-server:1.18.1'
