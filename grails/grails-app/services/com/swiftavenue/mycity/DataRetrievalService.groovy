@@ -2,6 +2,7 @@ package com.swiftavenue.mycity
 
 import grails.transaction.Transactional
 import grails.transaction.Transactional
+import groovy.sql.Sql
 
 import com.swiftavenue.mycity.db.DBConnection
 import com.swiftavenue.mycity.LocalAreaSummary
@@ -11,15 +12,17 @@ import com.swiftavenue.mycity.LocalArea
 class DataRetrievalService {
 
     def grailsApplication   // grails provided object 
+    
+    def dataSource
 
 	/* 
 	 * Retrieves the list of all local areas. Return the list of local area names 
 	 */
 	def retrieveLocalAreas() {
-		def queryStr = "MATCH (n:LocalArea) return n.areaId as areaId, n.areaName as areaName"
+		def queryStr = "SELECT local_area_name as areaId, local_area_name as areaName FROM mycity.Local_Area"
 		def dbc = getDb()
 		// dbc.display()
-		def qryResults = dbc.query(queryStr)
+		def qryResults = dbc.rows(queryStr)
 		def results = []
 		for (entry in qryResults) {
 			def la = new LocalArea()
@@ -36,10 +39,10 @@ class DataRetrievalService {
     * Retrieve the summary of all local areas 
     */
     def retrieveLocalAreaSummaries() {
-		def queryStr = "MATCH (n:LocalArea)-[r]-(b) return n.areaId as area, count(*) as total"
+		def queryStr = "SELECT local_area_name as area, count(local_area_name) as total FROM mycity.local_area la, mycity.case c WHERE la.id = c.local_area_id GROUP BY local_area_name"
 		def dbc = getDb()
 		// dbc.display()    // enable to verify that connection is a singleton
-		def qryResults = dbc.query(queryStr)
+		def qryResults = dbc.rows(queryStr)
 		// Query results are a list of rows. Each row is a map of column-value pairs
 		// Then we map the results into the list of LocalAreaSummary domain objects
 		def results = []
@@ -60,10 +63,10 @@ class DataRetrievalService {
     * Retrieve the summary of a specific local area 
     */
     def retrieveLocalAreaSummary(String pAreaId) {
-		def queryStr = "MATCH (n:LocalArea)-[r]-(b) where n.areaId = '${pAreaId}' return n.areaId as area, count(*) as total"
+		def queryStr = "SELECT local_area_name as area, count(local_area_name) as total FROM mycity.local_area la, mycity.case c WHERE la.id = c.local_area_id AND la.local_area_name = '${pAreaId}' GROUP BY local_area_name"
 		def dbc = getDb()
 		// dbc.display()    // enable to verify that connection is a singleton
-		def qryResults = dbc.query(queryStr)
+		def qryResults = dbc.rows(queryStr)
 		// Query results are a list of rows. Each row is a map of column-value pairs
 		// Then we map the results into the appropriate domain object(s)
 		if (qryResults.findAll()) { // check if there is result
@@ -80,11 +83,9 @@ class DataRetrievalService {
 	 * Retrieve Case Type summaries for a given local area
 	 */
 	def retrieveCaseTypeSummariesForLocalArea(String pAreaId) {
-		def queryStr = "match (n:LocalArea)<-[:REPORTED_FOR]-(c:Case)-[:OF_TYPE]->(ct) where n.areaId = '${pAreaId}' return " +
-		                  "ct.caseTypeId as caseTypeId, " +
-		                  "ct.type as typeName, count(*) as totalCases"
+		def queryStr = "SELECT ct.id as caseTypeId, ct.case_type_name as typeName, count(ct.id) as totalCases FROM mycity.local_area la, mycity.case c, mycity.case_type ct WHERE la.local_area_name = '${pAreaId}' AND la.id = c.local_area_id AND c.case_type_id = ct.id GROUP BY case_type_name, ct.id"
 		def dbc = getDb()
-		def qryResults = dbc.query(queryStr)
+		def qryResults = dbc.rows(queryStr)
 		def results = []
 		for (entry in qryResults) {
 			def cts = new CaseTypeSummary();
@@ -103,12 +104,10 @@ class DataRetrievalService {
 	 * Retrieve Case Type summaries, group by month, for a given local area
 	 */
 	def retrieveMonthlyCaseTypeSummariesForLocalArea(String pAreaId) {
-		def queryStr = "match (n:LocalArea)<-[:REPORTED_FOR]-(c:Case)-[:OF_TYPE]->(ct) where n.areaId = '${pAreaId}'" +
-		" return substring(c.logged_on,0,6) as month_reported, ct.caseTypeId as caseTypeId, " + 
-		" ct.type as typeName, count(*) as totalCases order by caseTypeId"
+		def queryStr = "SELECT ct.id as caseTypeId, ct.case_type_name as typeName, count(ct.id) as totalCases, date_trunc('month', c.date_reported ) as month_reported FROM mycity.local_area la, mycity.case c, mycity.case_type ct WHERE la.local_area_name = '${pAreaId}' AND la.id = c.local_area_id AND c.case_type_id = ct.id GROUP BY case_type_name, ct.id, month_reported ORDER BY case_type_name"
 		
 		def dbc = getDb()
-		def qryResults = dbc.query(queryStr)
+		def qryResults = dbc.rows(queryStr)
 		def results = []
 		for (entry in qryResults) {
 			def cts = new CaseTypeSummary();
@@ -127,12 +126,10 @@ class DataRetrievalService {
 	 * Retrieve the list of cases of a given case type and for a specific local area
 	 */
 	def retrieveCasesForLocalAreaAndCaseType(pAreaId, caseTypeId) {
-		def queryStr = "match (t:CaseType)<-[:OF_TYPE]-(c:Case)-[:REPORTED_FOR]->(l:LocalArea)" +
-		          " where t.caseTypeId = '${caseTypeId}' AND l.areaName = '${pAreaId}' " +
-				  " return c.caseId as caseId, c.logged_on as loggedOn, c.logged_at as loggedAt," +
-                  " t.caseTypeId as caseTypeId, t.type as caseTypeName"
-		def dbc = getDb()
-		def qryResults = dbc.query(queryStr)
+		def queryStr = "SELECT ct.id as caseTypeId, ct.case_type_name as typeName, count(ct.id) as caseTypeCount, date_trunc('month', c.date_reported ) as month_reported FROM mycity.local_area la, mycity.case c, mycity.case_type ct WHERE la.local_area_name = '${pAreaId}' AND la.id = c.local_area_id AND c.case_type_id = ct.id AND ct.id = '${caseTypeId}' GROUP BY case_type_name, ct.id, month_reported ORDER BY case_type_name" 
+		
+                def dbc = getDb()
+		def qryResults = dbc.rows(queryStr)
 		def results = []
 		for (entry in qryResults) {
 			def aCase = new Case();
@@ -152,9 +149,7 @@ class DataRetrievalService {
 	}
 
     private def getDb() {
-		def dbc = DBConnection.instance
-		dbc.init(grailsApplication.config.mycity.dburl)
-		return dbc
+		return new Sql(dataSource);
     }
 
 }
