@@ -126,7 +126,7 @@ class DataRetrievalService {
 	 * Retrieve the list of cases of a given case type and for a specific local area
 	 */
 	def retrieveCasesForLocalAreaAndCaseType(pAreaId, caseTypeId) {
-		def queryStr = "SELECT ct.id as caseTypeId, ct.case_type_name as typeName, count(ct.id) as caseTypeCount, date_trunc('month', c.date_reported ) as month_reported FROM mycity.local_area la, mycity.case c, mycity.case_type ct WHERE la.local_area_name = '${pAreaId}' AND la.id = c.local_area_id AND c.case_type_id = ct.id AND ct.id = '${caseTypeId}' GROUP BY case_type_name, ct.id, month_reported ORDER BY case_type_name" 
+		def queryStr = "SELECT ct.id as caseTypeId, ct.case_type_name as caseTypeName, count(ct.id) as caseTypeCount, c.id as caseId, date_trunc('month', c.date_reported ) as loggedOn FROM mycity.local_area la, mycity.case c, mycity.case_type ct WHERE la.local_area_name = '${pAreaId}' AND la.id = c.local_area_id AND c.case_type_id = ct.id AND ct.id = '${caseTypeId}' GROUP BY case_type_name, ct.id, loggedOn, caseId ORDER BY case_type_name" 
 		
                 def dbc = getDb()
 		def qryResults = dbc.rows(queryStr)
@@ -135,7 +135,6 @@ class DataRetrievalService {
 			def aCase = new Case();
 			aCase.with{
 				caseId = entry.caseId ?: "UNDEFINED"
-				loggedAt = entry.loggedAt
 				loggedOn = entry.loggedOn
 				type = new CaseType();
 				type.with{
