@@ -47,7 +47,7 @@ grails.project.dependency.resolution = {
 
 	// The following is maven repo for neo4j
 	// But currently somehow does not work.
-	mavenRepo "http://m2.neo4j.org/content/repositories/releases/"
+	//mavenRepo "http://m2.neo4j.org/content/repositories/releases/"
     }
 
     dependencies {
@@ -55,7 +55,7 @@ grails.project.dependency.resolution = {
         // runtime 'mysql:mysql-connector-java:5.1.27'
         // runtime 'org.postgresql:postgresql:9.3-1100-jdbc41'
         runtime 'postgresql:postgresql:9.1-901.jdbc4'
-	compile 'org.neo4j:neo4j:2.0.1'
+	//compile 'org.neo4j:neo4j:2.0.1'
 	test 'javax:javaee-api:7.0'
 	test 'com.sun.jersey:jersey-server:1.18.1'
 	test 'com.sun.jersey:jersey-client:1.18.1'
