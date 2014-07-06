@@ -4,7 +4,6 @@ import grails.transaction.Transactional
 import grails.transaction.Transactional
 import groovy.sql.Sql
 
-import com.swiftavenue.mycity.db.DBConnection
 import com.swiftavenue.mycity.LocalAreaSummary
 import com.swiftavenue.mycity.LocalArea
 
