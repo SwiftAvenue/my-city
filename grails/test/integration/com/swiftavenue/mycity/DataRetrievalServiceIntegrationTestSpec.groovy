@@ -7,9 +7,9 @@ import spock.lang.*
 /**
  *
  */
-class DataRetrievalServiceSpec extends Specification {
+class DataRetrievalServiceIntegrationTestSpec extends Specification {
 
-    def dataRetrievalService
+  def dataRetrievalService
     
     def setup() {
     }
