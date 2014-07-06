@@ -1,32 +1,37 @@
 package com.swiftavenue.mycity
 
-import grails.test.mixin.TestFor
+
+
 import spock.lang.*
 
 /**
  *
  */
-@TestFor(DataRetrievalService)
-class DataRetrievalServiceIntegTestSpec extends Specification {
+class DataRetrievalServiceSpec extends Specification {
 
+    def dataRetrievalService
+    
     def setup() {
     }
 
     def cleanup() {
     }
 
+    void "test something"() {
+    }
+    
     void "test retrieve local areas"() {
 		when: 'create service'
-		   def results = service.retrieveLocalAreas()
+		   def results = dataRetrievalService.retrieveLocalAreas()
 		then: 'service should return results'
 		   assert results  // results should not be null or empty
 		   assert results.size() > 0
 		results.each() { println it}
     }
-
-    void "test retrieve local area summaries"() {
+    
+   void "test retrieve local area summaries"() {
 		when: 'create service and retrieve data'
-		   def results = service.retrieveLocalAreaSummaries()
+		   def results = dataRetrievalService.retrieveLocalAreaSummaries()
 		then: 'service should return results'
 		   assert results
 		   assert results.size() > 0
@@ -36,7 +41,7 @@ class DataRetrievalServiceIntegTestSpec extends Specification {
 	void "test retrieve specific local area summaries"() {
 		when: 'create service and retrieve data'
 		   def areaId = "Fairview"
-		   def result = service.retrieveLocalAreaSummary(areaId)
+		   def result = dataRetrievalService.retrieveLocalAreaSummary(areaId)
 		then: 'service should return results'
 		   assert result
 		   assert result.areaName.equals(areaId)
@@ -46,7 +51,7 @@ class DataRetrievalServiceIntegTestSpec extends Specification {
 	void "test retrieve case types for a specific local area"() {
 		when: 'create service and retrieve data'
 		   def areaId = "Fairview"
-		   def results = service.retrieveCaseTypeSummariesForLocalArea(areaId)
+		   def results = dataRetrievalService.retrieveCaseTypeSummariesForLocalArea(areaId)
 		then: 'service should return results'
 		   assert results
 		   assert results.size() > 0
@@ -56,7 +61,7 @@ class DataRetrievalServiceIntegTestSpec extends Specification {
 	void "test retrieve case types grouped by month for a specific local area"() {
 		when: 'create service and retrieve data'
 		   String areaId = "Fairview"
-		   def results = service.retrieveMonthlyCaseTypeSummariesForLocalArea(areaId)
+		   def results = dataRetrievalService.retrieveMonthlyCaseTypeSummariesForLocalArea(areaId)
 		then: 'service should return results'
 		   assert results
 		   assert results.size() > 0
@@ -66,12 +71,12 @@ class DataRetrievalServiceIntegTestSpec extends Specification {
 	void "test retrieve cases for a specific local area and case type"() {
 		when: 'create service and retrieve data'
 		   def areaId = "Fairview"
-		   def caseTypeId = "AnimalControlGeneralInquiryCase"
-		   def results = service.retrieveCasesForLocalAreaAndCaseType(areaId, caseTypeId)
+		   def caseTypeId = 14
+		   def results = dataRetrievalService.retrieveCasesForLocalAreaAndCaseType(areaId, caseTypeId)
 		then: 'service should return results'
 		   assert results
 		   assert results.size() > 0
 		   results.each() { println "Case: ${it.caseId} - Logged on: ${it.loggedOn} - Type: ${it.type.name}" }
 	}
-
+    
 }
