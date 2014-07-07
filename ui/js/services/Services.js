@@ -3,6 +3,8 @@ var services = angular.module('myCity.services', ['ngResource']);
 services.factory('localAreaServices', function ($resource, $q) {
 
     var baseUrl = 'http://localhost:8080/mycity/api/';
+    // Production URL
+    //var baseUrl = 'http://mycity.swiftavenue.com/mycity/api/';
     var localAreaListResource = $resource(baseUrl + 'localAreas', {},
         {
             get: { method: 'GET', isArray: true }
