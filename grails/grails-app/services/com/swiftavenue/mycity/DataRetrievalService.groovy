@@ -4,8 +4,8 @@ import grails.transaction.Transactional
 import grails.transaction.Transactional
 import groovy.sql.Sql
 
-import com.swiftavenue.mycity.LocalAreaSummary
-import com.swiftavenue.mycity.LocalArea
+import com.swiftavenue.mycity.ViewLocalAreaSummary
+import com.swiftavenue.mycity.ViewLocalArea
 
 @Transactional
 class DataRetrievalService {
@@ -24,7 +24,7 @@ class DataRetrievalService {
 		def qryResults = dbc.rows(queryStr)
 		def results = []
 		for (entry in qryResults) {
-			def la = new LocalArea()
+			def la = new ViewLocalArea()
 			la.with {
 				name = entry.areaName
 				areaId = entry.areaId
@@ -46,7 +46,7 @@ class DataRetrievalService {
 		// Then we map the results into the list of LocalAreaSummary domain objects
 		def results = []
 		for (entry in qryResults) {
-			def las = new LocalAreaSummary();
+			def las = new ViewLocalAreaSummary();
 			las.with{
 				areaName = entry.area ?: "UNDEFINED"
 				numCases = entry.total
@@ -69,7 +69,7 @@ class DataRetrievalService {
 		// Query results are a list of rows. Each row is a map of column-value pairs
 		// Then we map the results into the appropriate domain object(s)
 		if (qryResults.findAll()) { // check if there is result
-			def las = new LocalAreaSummary();
+			def las = new ViewLocalAreaSummary();
 			las.with{
 				areaName = qryResults[0].area ?: "UNDEFINED"
 				numCases = qryResults[0].total
@@ -87,7 +87,7 @@ class DataRetrievalService {
 		def qryResults = dbc.rows(queryStr)
 		def results = []
 		for (entry in qryResults) {
-			def cts = new CaseTypeSummary();
+			def cts = new ViewCaseTypeSummary();
 			cts.with{
 				month = 'N/A'
 				caseTypeId = entry.caseTypeId
@@ -109,7 +109,7 @@ class DataRetrievalService {
 		def qryResults = dbc.rows(queryStr)
 		def results = []
 		for (entry in qryResults) {
-			def cts = new CaseTypeSummary();
+			def cts = new ViewCaseTypeSummary();
 			cts.with{
 				month = entry.month_reported
 				caseTypeId = entry.caseTypeId
@@ -131,11 +131,11 @@ class DataRetrievalService {
 		def qryResults = dbc.rows(queryStr)
 		def results = []
 		for (entry in qryResults) {
-			def aCase = new Case();
+			def aCase = new ViewCase();
 			aCase.with{
 				caseId = entry.caseId ?: "UNDEFINED"
 				loggedOn = entry.loggedOn
-				type = new CaseType();
+				type = new ViewCaseType();
 				type.with{
 					typeId = entry.caseTypeId
 					name = entry.caseTypeName
