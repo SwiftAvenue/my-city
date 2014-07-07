@@ -1,4 +1,4 @@
-import com.swiftavenue.mycity.LocalArea
+import com.swiftavenue.mycity.ViewLocalArea
 
 class BootStrap {
 

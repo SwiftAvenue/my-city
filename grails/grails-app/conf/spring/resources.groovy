@@ -3,20 +3,20 @@
 
 import grails.rest.render.xml.*
 import grails.rest.render.json.*
-import com.swiftavenue.mycity.LocalAreaSummary
+import com.swiftavenue.mycity.ViewLocalAreaSummary
 
 beans = {
 	// Exclude some properties from being returned by rest service
-	localAreaSummaryXmlRenderer(XmlRenderer, LocalAreaSummary) {
+	localAreaSummaryXmlRenderer(XmlRenderer, ViewLocalAreaSummary) {
 	    excludes = ['class', 'id']
 	}
-	localAreaSummaryJsonRenderer(JsonRenderer, LocalAreaSummary) {
+	localAreaSummaryJsonRenderer(JsonRenderer, ViewLocalAreaSummary) {
 	    excludes = ['class', 'id']
 	}
-	localAreaSummaryXmlCollectionRenderer(XmlCollectionRenderer, LocalAreaSummary) {
+	localAreaSummaryXmlCollectionRenderer(XmlCollectionRenderer, ViewLocalAreaSummary) {
 	    excludes = ['class', 'id']
 	}
-	localAreaSummaryJsonCollectionRenderer(JsonCollectionRenderer, LocalAreaSummary) {
+	localAreaSummaryJsonCollectionRenderer(JsonCollectionRenderer, ViewLocalAreaSummary) {
 	    excludes = ['class', 'id']
 	}
 }
