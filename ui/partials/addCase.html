@@ -1,0 +1,40 @@
+<!-- Header -->
+<div ng-include src="'partials/header.html'"></div>
+
+<br>
+<form class="well span5"role="form">
+				<div class="row">
+					<div class="span3">
+						<label>Full Name</label>
+						<input ng-model="form.name" type="text" class="span3 form-control" placeholder="Your Full Name">
+						<label>Email Address</label>
+						<div class="input-prepend">
+							<span class="add-on"><i class="icon-envelope"></i></span><input type="text" id="inputIcon" class="span2 form-control" style="width:233px" placeholder="Your email address">
+						</div>						
+						<label>Street</label>
+						<input ng-model="form.street" type="text" class="span3 form-control" placeholder="Street name here">
+						<label>Block</label>
+						<input ng-model="form.block" type="text" class="span3 form-control" placeholder="Street name here">
+
+						<label>Local Area
+						<select ng-model="form.localArea" ng-options="area.name for area in localareas" class="span3 form-control"/>
+						</label>
+						<label>Case Type
+						<select ng-model="form.caseType" ng-options="case.name for case in casetypes" class="span3 form-control"/>
+						</label>						
+					</div>
+					<div class="span5">
+						<label>Message</label>
+						<textarea name="message" id="message" class="input-large span5 form-control" rows="5"></textarea>
+					</div>
+					
+					<br>
+					<!-- 
+					<button ng-click="addCase()" type="submit" class="btn btn-primary pull-right">Send</button>
+					-->
+					<a class="btn btn-primary pull-right" href="#">Send</a></button>
+				</div>
+				
+</form> 
+<!-- Footer -->
+<div ng-include src="'partials/footer.html'"></div>

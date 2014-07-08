@@ -22,6 +22,10 @@ myCityApp.config(['$routeProvider',
                 templateUrl: 'partials/contact.html',
                 controller: 'ContactCtrl'
             }).
+            when('/addCase', {
+                templateUrl: 'partials/addCase.html',
+                controller: 'AddCaseCtrl'
+            }).			
             otherwise({
                 redirectTo: '/city'
             });

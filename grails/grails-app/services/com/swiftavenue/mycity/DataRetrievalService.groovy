@@ -33,7 +33,25 @@ class DataRetrievalService {
 		}
 		results // return the results
 	}
-
+	/*
+	 * Retrieves the list of all case types.
+	 */
+	def retrieveCaseTypes() {
+		def queryStr = "SELECT case_type_name as caseTypeName,id as caseTypeId FROM mycity.case_type"
+		def dbc = getDb()
+		// dbc.display()
+		def qryResults = dbc.rows(queryStr)
+		def results = []
+		for (entry in qryResults) {
+			def la = new ViewCaseType()
+			la.with {
+				name = entry.caseTypeName
+				typeId = entry.caseTypeId
+			}
+			results.add(la)
+		}
+		results // return the results
+	}
     /* 
     * Retrieve the summary of all local areas 
     */
