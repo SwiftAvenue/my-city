@@ -10,6 +10,11 @@ services.factory('localAreaServices', function ($resource, $q) {
             get: { method: 'GET', isArray: true }
         }
     );
+  var caseTypeListResource = $resource(baseUrl + 'caseTypes', {},
+        {
+            get: { method: 'GET', isArray: true }
+        }
+    );
     var caseTypesResource = $resource(baseUrl + 'cases/area/:localArea', {},
         {
             get: { method: 'GET', isArray: true }
@@ -29,7 +34,10 @@ services.factory('localAreaServices', function ($resource, $q) {
             localAreaList = localAreaListResource.get();
             return localAreaList;
         },
-
+		getCaseTypeList: function() {
+            caseTypeList = caseTypeListResource.get();
+            return caseTypeList;
+        },
         getCaseTypesForLocalArea: function(locArea) {
             locAreaCaseTypes = caseTypesResource.get({
                 localArea : locArea
