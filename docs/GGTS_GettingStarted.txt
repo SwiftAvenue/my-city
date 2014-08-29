@@ -26,5 +26,17 @@ You should see the server startup at localhost.
 
 Try to view it in a browser at localhost:8080/mycity
 
+NOTE: Terminating the server process via eclipse (red rectangle button) does not actually killing the process.
+The server is still running. In this case we have to kill it manually outside of eclipse. 
+
+Type netstat -a -o -n and it will bring up a network list, look at the PID (e.g. 8080) 
+netstat -aon | grep 8080 (cygwin) 
+netstat -aon | find /i "8080" (windows)
+
+Then kill it, do this from cmd line:
+taskkill /F /PID <PID>
+
+
+
 
 
