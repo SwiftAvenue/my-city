@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="en" ng-app="myCityApp">
+<head>
+    <meta charset="UTF-8">
+    <title>Vancouver City Information</title>
+    <link rel="stylesheet" href="lib/bootstrap-3.2.0/css/bootstrap.css">
+    <link rel="stylesheet" href="lib/bootstrap-3.2.0/css/bootstrap-theme.min.css">
+    <link rel="stylesheet" href="lib/leaflet-0.7.3/leaflet.css">
+
+    <!-- Add custom CSS here -->
+    <link rel="stylesheet" href="css/dashboard.css">
+    <link rel="stylesheet" href="css/app.css">
+<!--    <link href="lib/bootstrap-3.2.0/css/half-slider.css" rel="stylesheet"> -->
+</head>
+<body>
+
+<div ng-view></div>
+
+<!-- JavaScript -->
+<script src="lib/jquery-1.11.1/jquery-1.11.1.js"></script>
+<script src="lib/bootstrap-3.2.0/js/bootstrap.js"></script>
+<script src="lib/angular/angular.js"></script>
+<script src="lib/angular/angular-route.js"></script>
+<script src="lib/angular/angular-resource.js"></script>
+<script src="lib/ui-angular/ui-bootstrap-tpls-0.10.0.js"></script>
+<script src="lib/underscore/underscore-1.6.0.js"></script>
+<script src="lib/angular-charts/angular-charts.js"></script>
+<script src="lib/highcharts/highcharts-all.js"></script>
+<script src="lib/highcharts-ng/highcharts-ng.js"></script>
+<script src="lib/leaflet-0.7.3/leaflet-src.js"></script>
+<script src="lib/leaflet-ng/angular-leaflet-directive.js"></script>
+
+<script src="js/App.js"></script>
+<script src="js/controllers/CityController.js"></script>
+<script src="js/controllers/LocalAreaController.js"></script>
+<script src="js/controllers/CaseTypeController.js"></script>
+<script src="js/controllers/LocalArea2Controller.js"></script>
+<script src="js/controllers/AboutController.js"></script>
+<script src="js/controllers/ContactController.js"></script>
+<script src="js/controllers/LabController.js"></script>
+<script src="js/services/Services.js"></script>
+<script src="js/Filters.js"></script>
+
+<!-- Script to Activate the Carousel -->
+<script>
+    $('.carousel').carousel({
+        interval: 3000 //changes the speed
+    })
+</script>
+
+</body>
+</html>
