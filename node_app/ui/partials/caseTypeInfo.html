@@ -11,7 +11,7 @@
         </div>
         <div class="navbar-collapse collapse">
             <ul class="nav navbar-nav navbar-right">
-                <li><a href="#/addCase">Report A Case</a></li>
+                <li><a href="#/newcase">Report A Case</a></li>
                 <li><a href="#/manage">Manage</a></li>
                 <li><a href="#/lab">Lab</a></li>
                 <li><a href="#/about">About</a></li>
@@ -24,31 +24,15 @@
     <div class="row">
         <div class="col-sm-3 col-md-2 sidebar">
             <ul class="nav nav-sidebar">
-                <li class="active"><a href="#/local2/{{currentLocalArea}}/{{localAreaId}}">{{currentLocalArea}}</a></li>
-                <li><a href="#/caseTypeInfo/{{caseTypeId}}">Case Type Info</a></li>
+                <li class="active"><a href="#">Case Type Info</a></li>
             </ul>
         </div>
         <div class="col-sm-9 col-sm-offset-3 col-md-10 col-md-offset-2 main">
-            <h1 class="page-header">Vancouver's {{currentLocalArea}}</h1>
-
-            <h3>Case Type Details: {{caseTypeInfo.caseTypeName}}</h3>
+            <h1 class="page-header">Case Type Information for {{caseTypeInfo.caseTypeName}}</h1>
 
             Department handling this case type: {{caseTypeInfo.deptName}}<br/>
             Division handling this case type: {{caseTypeInfo.divName}}<br/>
             <p/>
-
-            <div class="row section">
-            <highchart id="chart1" config="chartConfig"></highchart>
-        </div>
-
-            <div>
-                Compare with another Local Area:
-                <select ng-model="localAreaToCompare"
-                        ng-options="la.localAreaName for la in localAreas">
-                </select>
-                <button ng-click="addSeries()">Add</button>
-                <button ng-click="resetChart()">Reset</button>
-            </div>
 
             <div ng-include src="'partials/footer.html'"></div>
 

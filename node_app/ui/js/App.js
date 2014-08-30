@@ -26,6 +26,14 @@ myCityApp.config(['$routeProvider',
                 templateUrl: 'partials/about.html',
                 controller: 'AboutCtrl'
             }).
+            when('/caseTypeInfo/:caseTypeId', {
+                templateUrl: 'partials/caseTypeInfo.html',
+                controller: 'CaseTypeInfoCtrl'
+            }).
+            when('/addCase', {
+                templateUrl: 'partials/addCase.html',
+                controller: 'AddCaseCtrl'
+            }).
             when('/contact', {
                 templateUrl: 'partials/contact.html',
                 controller: 'ContactCtrl'

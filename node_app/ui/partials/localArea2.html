@@ -11,7 +11,7 @@
         </div>
         <div class="navbar-collapse collapse">
             <ul class="nav navbar-nav navbar-right">
-                <li><a href="#/newcase">Report A Case</a></li>
+                <li><a href="#/addCase">Report A Case</a></li>
                 <li><a href="#/manage">Manage</a></li>
                 <li><a href="#/lab">Lab</a></li>
                 <li><a href="#/about">About</a></li>
@@ -25,8 +25,6 @@
         <div class="col-sm-3 col-md-2 sidebar">
             <ul class="nav nav-sidebar">
                 <li class="active"><a href="#/local2/{{currentLocalArea}}">{{currentLocalArea}}</a></li>
-                <li><a href="#/local/{{currentLocalArea}}/compare">Compare</a></li>
-                <li><a href="#/caseTypeInfo">Case Type Info</a></li>
             </ul>
             <ul class="nav nav-sidebar">
                 <li><a href="#/local/{{currentLocalArea}}">Show old page</a></li>
@@ -35,7 +33,6 @@
         <div class="col-sm-9 col-sm-offset-3 col-md-10 col-md-offset-2 main">
             <h1 class="page-header">Vancouver's {{currentLocalArea}}</h1>
 
-            TBD
             <h3>Summary of Reported Cases To Date</h3>
             <table class="table table-condensed table-hover table-bordered table-striped">
                 <thead>
@@ -67,13 +64,7 @@
                  last-text="&raquo;">
             </div>
 
-            <footer>
-                <div class="row">
-                    <div class="col-lg-12">
-                        <p>Copyright &copy; Swiftavenue 2014</p>
-                    </div>
-                </div>
-            </footer>
+            <div ng-include src="'partials/footer.html'"></div>
 
         </div>
     </div>
