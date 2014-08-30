@@ -10,10 +10,6 @@ myCityApp.config(['$routeProvider',
                 templateUrl: 'partials/city.html',
                 controller: 'CityCtrl'
             }).
-            when('/local/:localArea', {
-                templateUrl: 'partials/localArea.html',
-                controller: 'LocalAreaCtrl'
-            }).
             when('/local2/:localArea/:localAreaId', {
                 templateUrl: 'partials/localArea2.html',
                 controller: 'LocalArea2Ctrl'
