@@ -23,11 +23,11 @@
   </component>
   <component name="FileEditorManager">
     <leaf>
-      <file leaf-file-name="city.html" pinned="false" current="false" current-in-tab="false">
+      <file leaf-file-name="city.html" pinned="false" current="true" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/partials/city.html">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="-0.65384614" vertical-offset="0" max-vertical-offset="595">
-              <caret line="1" column="12" selection-start-line="1" selection-start-column="12" selection-end-line="1" selection-end-column="12" />
+            <state vertical-scroll-proportion="0.4699187" vertical-offset="0" max-vertical-offset="615">
+              <caret line="17" column="159" selection-start-line="17" selection-start-column="159" selection-end-line="17" selection-end-column="159" />
               <folding />
             </state>
           </provider>
@@ -43,10 +43,10 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="header2.html" pinned="false" current="true" current-in-tab="true">
+      <file leaf-file-name="header2.html" pinned="false" current="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/partials/header2.html">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.3789809" vertical-offset="0" max-vertical-offset="628">
+            <state vertical-scroll-proportion="-9.153846" vertical-offset="0" max-vertical-offset="476">
               <caret line="14" column="0" selection-start-line="14" selection-start-column="0" selection-end-line="14" selection-end-column="0" />
               <folding />
             </state>
@@ -174,12 +174,12 @@
         <option value="$PROJECT_DIR$/js/controllers/CaseTypeController.js" />
         <option value="$PROJECT_DIR$/partials/header1.html" />
         <option value="$PROJECT_DIR$/partials/addCase.html" />
-        <option value="$PROJECT_DIR$/partials/city.html" />
         <option value="$PROJECT_DIR$/partials/localArea2.html" />
         <option value="$PROJECT_DIR$/partials/caseType.html" />
         <option value="$PROJECT_DIR$/partials/contact.html" />
         <option value="$PROJECT_DIR$/partials/about.html" />
         <option value="$PROJECT_DIR$/partials/header2.html" />
+        <option value="$PROJECT_DIR$/partials/city.html" />
       </list>
     </option>
   </component>
@@ -756,14 +756,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/partials/city.html">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="-0.65384614" vertical-offset="0" max-vertical-offset="595">
-          <caret line="1" column="12" selection-start-line="1" selection-start-column="12" selection-end-line="1" selection-end-column="12" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/partials/header1.html">
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="-11.769231" vertical-offset="0" max-vertical-offset="527">
@@ -814,8 +806,16 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/partials/header2.html">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.3789809" vertical-offset="0" max-vertical-offset="628">
+        <state vertical-scroll-proportion="-9.153846" vertical-offset="0" max-vertical-offset="476">
           <caret line="14" column="0" selection-start-line="14" selection-start-column="0" selection-end-line="14" selection-end-column="0" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/partials/city.html">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.4699187" vertical-offset="0" max-vertical-offset="615">
+          <caret line="17" column="159" selection-start-line="17" selection-start-column="159" selection-end-line="17" selection-end-column="159" />
           <folding />
         </state>
       </provider>
