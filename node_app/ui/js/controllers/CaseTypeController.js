@@ -121,7 +121,6 @@ angular.module('myCityApp').controller('CaseTypeCtrl',
 
         // Generate chart for the local area item that user has selected
         $scope.processSelectedLocalAreasToCompare = function () {
-            $scope.resetChart();
             var selectedItems = $filter('filter')($scope.localAreasForCheckList, { checked: true });
             angular.forEach(selectedItems, function (value, index) {
                 if (value.value.toLowerCase() != $scope.localAreaName.toLowerCase()) {
@@ -130,9 +129,17 @@ angular.module('myCityApp').controller('CaseTypeCtrl',
             });
         };
 
+        // Reset the checklist
+        var resetCheckList = function() {
+            angular.forEach($scope.localAreasForCheckList, function(value, index) {
+                value.checked = false;
+            });
+        };
+
         // Reset the chart
         $scope.resetChart = function () {
             $log.log("Resetting the chart...");
+            resetCheckList();
             $scope.chartConfig.series = [];
             localAreaServices.getMonthlyCaseTypeSummaryForLocalArea($scope.localAreaName, $scope.caseTypeId)
                 .then(function (data) {
@@ -149,6 +156,7 @@ angular.module('myCityApp').controller('CaseTypeCtrl',
                     );
                 });
         };
+
 
         $scope.addChartForSelectedLA = function () {
             addNewChart($scope.localAreaToCompare.localAreaName, $scope.caseTypeId);
