@@ -31,3 +31,31 @@ ul.la {
 li.la:before {
     content: "•  ";
 }
+
+/* circle-text, taken from http://codeitdown.com/css-circles/ */
+
+.circle-text {
+    width:150px;
+    margin: 0 auto;
+}
+.circle-text:after {
+    content: "";
+    display: block;
+    width: 100%;
+    height:0;
+    padding-bottom: 100%;
+    background: #6B94CA;
+    -moz-border-radius: 50%;
+    -webkit-border-radius: 50%;
+    border-radius: 50%;
+}
+.circle-text div {
+    float:left;
+    width:100%;
+    padding-top:50%;
+    line-height:1em;
+    margin-top:-0.5em;
+    font-size: 60px;
+    text-align:center;
+    color:white;
+}
