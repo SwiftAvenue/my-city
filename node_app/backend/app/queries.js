@@ -87,6 +87,34 @@ function getCaseTypeDetailedInfo(db, caseTypeId, callback) {
         });
 }
 
+function insertNewCase(db, caseDetails, callback) {
+    var theQuery = "INSERT INTO mycity.case2( " +
+        "case_id, date_reported, time_reported, case_type_id, local_area_id, " +
+        "hundred_block, street, description) " +
+        "VALUES (:caseId, :dateReported, :timeReported, :caseTypeId, :localAreaId, :addressBlock, :addressStreet, :description)";
+
+    var moment = require('moment');
+    var theDateReported = moment().format('YYYY-MM-DD');
+    var theTimeReported = moment().format('hh:mm:ss');
+    console.log('Date: ' + theDateReported + '; Time: ' + theTimeReported);
+
+    var theCaseId = moment().format('YYYYMMDD') + moment().format('hhmmssSSS');
+    console.log('Case ID: ' + theCaseId);
+
+    db.query(theQuery, null, {raw: true},
+        {   caseId: theCaseId,
+            dateReported: theDateReported,
+            timeReported: theTimeReported,
+            caseTypeId: caseDetails.caseTypeId,
+            localAreaId: caseDetails.localAreaId,
+            addressBlock: caseDetails.addressBlock,
+            addressStreet: caseDetails.addressStreet,
+            description: caseDetails.caseDescription })
+        .success(function (rows) {
+            callback(rows);
+        });
+}
+
 module.exports.getCaseSummaryForLocalArea = getCaseSummaryForLocalArea;
 module.exports.getAllCaseTypeSummariesForLocalArea = getAllCaseTypeSummariesForLocalArea;
 module.exports.getAllCaseTypeSummariesForLocalAreaMonthly = getAllCaseTypeSummariesForLocalAreaMonthly;
@@ -95,4 +123,6 @@ module.exports.getCaseTypeSummaryForLocalAreaAndCaseTypeMonthly = getCaseTypeSum
 module.exports.getLocalAreas = getLocalAreas;
 module.exports.getCaseTypes = getCaseTypes;
 module.exports.getCaseTypeDetailedInfo = getCaseTypeDetailedInfo;
+
+module.exports.insertNewCase = insertNewCase;
 

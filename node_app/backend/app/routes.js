@@ -31,7 +31,7 @@ module.exports = function (app, router, appServices, mydb) {
             });
         });
 
-// routes for caseTypes
+    // routes for caseTypes
     router.route('/caseTypes')
         .get(function (req, res) {
             appServices.getAllCaseTypes(mydb, function (results) {
@@ -44,6 +44,16 @@ module.exports = function (app, router, appServices, mydb) {
             appServices.getCaseTypeDetailedInfo(mydb, req.params.caseTypeId, function (results) {
                 res.json(results);
             });
+        });
+
+    router.route('/case')
+        .post(function (req, res) {
+            console.log('POST: Adding a new case with details: ');
+            console.log(req.body);
+            appServices.addNewCase(mydb, req.body,
+                function (results) {
+                    res.json(results);
+                });
         });
 
     router.route('/case/summary/:localAreaName')

@@ -105,6 +105,13 @@ function getCaseTypeDetailedInfo(mydb, ctId, callback) {
         });
 };
 
+function addNewCase(mydb, caseData, callback) {
+    dbService.insertNewCase(mydb, caseData,
+        function (result) {
+            callback(result);
+        });
+};
+
 function formatMonthReported(monthReportedStr) {
     // A month reported string example: "Sat Dec 31 2011 16:00:00 GMT-0800 (Pacific Standard Time)"
     // returned: 31-Dec-2011
@@ -118,3 +125,4 @@ module.exports.getCaseTypeSummaryForLocalAreaAndCaseTypeMonthly = getCaseTypeSum
 module.exports.getCaseTypeDetailedInfo = getCaseTypeDetailedInfo;
 module.exports.getAllCaseTypeSummariesForLocalArea = getAllCaseTypeSummariesForLocalArea;
 module.exports.getAllCaseTypeSummariesForLocalAreaMonthly = getAllCaseTypeSummariesForLocalAreaMonthly;
+module.exports.addNewCase = addNewCase;

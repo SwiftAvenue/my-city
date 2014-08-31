@@ -8,9 +8,19 @@ services.factory('localAreaServices', function ($resource, $q) {
             get: { method: 'GET', isArray: true }
         }
     );
-    var caseTypesResource = $resource(baseUrl + 'case/summary/:localArea', {},
+    var caseTypesLocalAreaResource = $resource(baseUrl + 'case/summary/:localArea', {},
         {
             get: { method: 'GET', isArray: true }
+        }
+    );
+    var caseTypesResource = $resource(baseUrl + 'caseTypes', {},
+        {
+            get: { method: 'GET', isArray: true }
+        }
+    );
+    var caseResource = $resource(baseUrl + 'case', {},
+        {
+            save: { method: 'POST' }
         }
     );
     var monthlyCaseTypesResource = $resource(baseUrl + 'case/summary/:localArea/m', {},
@@ -31,52 +41,61 @@ services.factory('localAreaServices', function ($resource, $q) {
         }
     );
 
-    var localAreaList = undefined;
+    var caseTypeList = undefined;
     var locAreaCaseTypes = undefined;
-    var caseTypeDetailedInfo = undefined;
 
     return {
-        getLocalAreaList: function() {
+        getLocalAreaList: function () {
             var d = $q.defer();
-            localAreaListResource.get({}, function(data) {
+            localAreaListResource.get({}, function (data) {
                 d.resolve(data);
             });
             return d.promise;
         },
 
-        getCaseTypesForLocalArea: function(locArea) {
-            locAreaCaseTypes = caseTypesResource.get({
-                localArea : locArea
+        addNewCase: function (newCase) {
+            console.log("Adding new case...");
+            caseResource.save(newCase);
+        },
+
+        getCaseTypes: function () {
+            caseTypeList = caseTypesResource.get();
+            return caseTypeList;
+        },
+
+        getCaseTypesForLocalArea: function (locArea) {
+            locAreaCaseTypes = caseTypesLocalAreaResource.get({
+                localArea: locArea
             });
             return locAreaCaseTypes;
         },
 
-        getMonthlyCaseTypesForLocalArea: function(locArea) {
+        getMonthlyCaseTypesForLocalArea: function (locArea) {
             var d = $q.defer();
             monthlyCaseTypesResource.get({
-                localArea : locArea
-            }, function(data) {
+                localArea: locArea
+            }, function (data) {
                 d.resolve(data);
             });
             return d.promise;
         },
 
-        getMonthlyCaseTypeSummaryForLocalArea: function(locArea, caseTypeId) {
+        getMonthlyCaseTypeSummaryForLocalArea: function (locArea, caseTypeId) {
             var d = $q.defer();
             monthlyCaseTypeSummaryForLocalAreaResource.get({
-                localArea : locArea,
-                caseTypeId : caseTypeId
-            }, function(data) {
+                localArea: locArea,
+                caseTypeId: caseTypeId
+            }, function (data) {
                 d.resolve(data);
             });
             return d.promise;
         },
 
-        getCaseTypeDetailedInfo: function(caseTypeId) {
+        getCaseTypeDetailedInfo: function (caseTypeId) {
             var d = $q.defer();
             caseTypeDetailedInfoResource.get({
-                caseTypeId : caseTypeId
-            }, function(data) {
+                caseTypeId: caseTypeId
+            }, function (data) {
                 d.resolve(data);
             });
             return d.promise;

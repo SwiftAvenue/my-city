@@ -1,0 +1,60 @@
+
+<div class="modal fade">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" ng-click="close('Cancel')" data-dismiss="modal" aria-hidden="true">&times;</button>
+                <h4 class="modal-title">Report New Case</h4>
+            </div>
+            <div class="modal-body">
+                <p>Report a new case here</p>
+                <form role="form">
+                    <div class="form-group">
+                        <div class="row">
+                            <div class="col-xs-6">
+                            <label for="name">Your Name</label>
+                            <input type="text" class="form-control input-sm" id="name" placeholder="Your Name" ng-model="name">
+                                </div>
+                            <div class="col-xs-6">
+                            <label for="email">Your Email</label>
+                            <input type="text" class="form-control input-sm" id="email" placeholder="Your Email" ng-model="email">
+                                </div>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label>Case Location</label>
+                        <div class="row">
+                            <div class="col-xs-4">
+                                <select class="form-control input-sm" id="localArea" ng-model="localArea"
+                                        ng-options="area.localAreaName for area in localAreaList">
+                                    <option value="" selected>Local Area</option>
+                                    </select>
+                            </div>
+                            <div class="col-xs-2">
+                                <input type="text" class="form-control input-sm" id="block" placeholder="Block" ng-model="addressBlock">
+                            </div>
+                            <div class="col-xs-6">
+                                <input type="text" class="form-control input-sm" id="street" placeholder="Street Name" ng-model="addressStreet">
+                            </div>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="caseType">Case Type To Report</label>
+                        <select class="form-control input-sm" id="caseType" ng-model="caseType"
+                                ng-options="ct.caseTypeName for ct in caseTypeList">
+                            <option value="" selected>Case Type</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label for="description">Case Description</label>
+                        <textarea class="form-control input-sm" id="description" rows="3" placeholder="Describe The Case Here" ng-model="caseDescription"></textarea>
+                    </div>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button type="button" ng-click="close('Yes')" class="btn btn-primary" data-dismiss="modal">Submit</button>
+                <button type="button" ng-click="close('No')" class="btn btn-default" data-dismiss="modal">Close</button>
+            </div>
+        </div>
+    </div>
+</div>
