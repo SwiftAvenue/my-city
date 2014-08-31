@@ -1,7 +1,7 @@
 'use strict';
 
 angular.module('myCityApp').controller('CaseTypeCtrl',
-    function ($scope, $log, $routeParams, localAreaServices) {
+    function ($scope, $log, $filter, $routeParams, localAreaServices) {
 
         $log.log("Selected local area: " + $routeParams.localArea);
         $log.log("Selected local area id: " + $routeParams.localAreaId);
@@ -29,7 +29,7 @@ angular.module('myCityApp').controller('CaseTypeCtrl',
                 text: 'Case Type History'
             },
             size: {
-                width: 800,
+                width: 600,
                 height: 400
             },
             loading: false
@@ -82,15 +82,28 @@ angular.module('myCityApp').controller('CaseTypeCtrl',
         };
 
         // Store the list of local areas. Used by the dropdown element
-        $scope.localAreas = localAreaServices.getLocalAreaList();
+        localAreaServices.getLocalAreaList()
+            .then(function (data) {
+                $scope.localAreas = data;
+                $scope.localAreasForCheckList = mapLocalAreas(data);
+            });
+
+        var mapLocalAreas = function (data) {
+            var mappedArrays = [];
+            var localAreaNames = _.pluck(data, 'localAreaName');
+            _.each(localAreaNames, function (name) {
+                mappedArrays.push({ value: name, checked: false });
+            });
+            return mappedArrays;
+        };
 
         // The selected local area whose data is to be added to the chart
-        $scope.localAreaToCompare = undefined;
+        $scope.localAreaToCompare = '';
 
         // This function is triggered by the 'Add' button. It retrieves the case type data for
         // a selected local area, then add another series to the chart
-        $scope.addSeries = function () {
-            localAreaServices.getMonthlyCaseTypeSummaryForLocalArea($scope.localAreaToCompare.localAreaName, $scope.caseTypeId)
+        var addNewChart = function (localAreaName, caseTypeId) {
+            localAreaServices.getMonthlyCaseTypeSummaryForLocalArea(localAreaName, caseTypeId)
                 .then(function (data) {
                     $log.log("raw data size: " + _.size(data));
                     var totalCasesData = [];
@@ -99,14 +112,26 @@ angular.module('myCityApp').controller('CaseTypeCtrl',
                     });
                     $scope.chartConfig.series.push(
                         {
-                            name: $scope.localAreaToCompare.localAreaName,
+                            name: localAreaName,
                             data: totalCasesData
                         }
                     );
                 });
-        }
+        };
 
-        $scope.resetChart = function() {
+        // Generate chart for the local area item that user has selected
+        $scope.processSelectedLocalAreasToCompare = function () {
+            $scope.resetChart();
+            var selectedItems = $filter('filter')($scope.localAreasForCheckList, { checked: true });
+            angular.forEach(selectedItems, function (value, index) {
+                if (value.value.toLowerCase() != $scope.localAreaName.toLowerCase()) {
+                    addNewChart(value.value, $scope.caseTypeId);
+                }
+            });
+        };
+
+        // Reset the chart
+        $scope.resetChart = function () {
             $log.log("Resetting the chart...");
             $scope.chartConfig.series = [];
             localAreaServices.getMonthlyCaseTypeSummaryForLocalArea($scope.localAreaName, $scope.caseTypeId)
@@ -123,6 +148,11 @@ angular.module('myCityApp').controller('CaseTypeCtrl',
                         }
                     );
                 });
-        }
+        };
+
+        $scope.addChartForSelectedLA = function () {
+            addNewChart($scope.localAreaToCompare.localAreaName, $scope.caseTypeId);
+        };
+
 
     });

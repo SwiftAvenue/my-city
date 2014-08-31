@@ -9,11 +9,13 @@ function getLocalAreas(mydb, callback) {
     dbService.getLocalAreas(mydb, function (laList) {
         var mappedResults = [];
         laList.forEach(function (la) {
-            var mappedLa = {
-                localAreaId: la.id,
-                localAreaName: la.local_area_name
+            if (la.local_area_name.toLowerCase() != 'local_area') {
+                var mappedLa = {
+                    localAreaId: la.id,
+                    localAreaName: la.local_area_name
+                }
+                mappedResults.push(mappedLa);
             }
-            mappedResults.push(mappedLa);
         });
         callback(mappedResults);
     });

@@ -3,7 +3,10 @@
 angular.module('myCityApp').controller('CityCtrl',
     function($scope, localAreaServices) {
 
-    $scope.localareas = {};
-    $scope.localareas = localAreaServices.getLocalAreaList();
+    $scope.localAreas = {};
+    localAreaServices.getLocalAreaList()
+        .then( function (data) {
+            $scope.localAreas = data;
+        });
 
 });

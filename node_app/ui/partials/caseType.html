@@ -38,17 +38,28 @@
             <p/>
 
             <div class="row section">
-            <highchart id="chart1" config="chartConfig"></highchart>
+                <div class="col-md-8">
+                    <highchart id="chart1" config="chartConfig"></highchart>
+                </div>
+                <div class="col-md-4">
+                    <strong>Select Area(s) to compare:</strong>
+                    <div ng-repeat="la in localAreasForCheckList">
+                        <input type="checkbox" ng-change="processSelectedLocalAreasToCompare()" ng-model="la.checked">{{la.value}}</input>
+                    </div>
+                    <button ng-click="resetChart()">Reset</button>
+                </div>
         </div>
 
+            <!--
             <div>
                 Compare with another Local Area:
                 <select ng-model="localAreaToCompare"
                         ng-options="la.localAreaName for la in localAreas">
                 </select>
-                <button ng-click="addSeries()">Add</button>
+                <button ng-click="addChartForSelectedLA()">Add</button>
                 <button ng-click="resetChart()">Reset</button>
             </div>
+            -->
 
             <div ng-include src="'partials/footer.html'"></div>
 

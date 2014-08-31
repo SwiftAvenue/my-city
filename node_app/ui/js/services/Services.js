@@ -37,8 +37,11 @@ services.factory('localAreaServices', function ($resource, $q) {
 
     return {
         getLocalAreaList: function() {
-            localAreaList = localAreaListResource.get();
-            return localAreaList;
+            var d = $q.defer();
+            localAreaListResource.get({}, function(data) {
+                d.resolve(data);
+            });
+            return d.promise;
         },
 
         getCaseTypesForLocalArea: function(locArea) {

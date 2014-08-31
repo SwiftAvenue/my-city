@@ -21,3 +21,13 @@ body {
   height: 100px;
   width: 100px;
 }
+
+ul.la {
+    list-style-type: none;
+    columns: 3;
+    -webkit-columns: 3;
+    -moz-columns: 3;
+}
+li.la:before {
+    content: "•  ";
+}
