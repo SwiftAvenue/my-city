@@ -64,6 +64,14 @@ module.exports = function (app, router, appServices, mydb) {
                 });
         });
 
+    router.route('/case/summary')
+        .get(function (req, res) {
+            appServices.getNumberOfCasesGroupedByLocalArea(mydb,
+                function (results) {
+                    res.json(results);
+                });
+     });
+
     router.route('/case/summary/:localAreaName/m')
         .get(function (req, res) {
             appServices.getAllCaseTypeSummariesForLocalAreaMonthly(mydb, req.params.localAreaName,

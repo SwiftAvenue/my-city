@@ -115,6 +115,21 @@ function insertNewCase(db, caseDetails, callback) {
         });
 }
 
+function getNumberOfCasesGroupedByLocalArea(db, callback) {
+    var theQuery = "SELECT count(c.id) as numCases, " +
+        "ct.id as caseTypeId, ct.case_type_name as caseTypeName, " +
+        "la.id as localAreaId, la.local_area_name as localAreaName " +
+    "FROM mycity.case c, mycity.local_area la, mycity.case_type ct " +
+    "WHERE c.local_area_id = la.id " +
+    "AND c.case_type_id = ct.id " +
+    "GROUP BY ct.id, ct.case_type_name, la.id, la.local_area_name";
+
+    db.query(theQuery, null, {raw: true})
+        .success(function (rows) {
+            callback(rows);
+        });
+}
+
 module.exports.getCaseSummaryForLocalArea = getCaseSummaryForLocalArea;
 module.exports.getAllCaseTypeSummariesForLocalArea = getAllCaseTypeSummariesForLocalArea;
 module.exports.getAllCaseTypeSummariesForLocalAreaMonthly = getAllCaseTypeSummariesForLocalAreaMonthly;
@@ -123,6 +138,7 @@ module.exports.getCaseTypeSummaryForLocalAreaAndCaseTypeMonthly = getCaseTypeSum
 module.exports.getLocalAreas = getLocalAreas;
 module.exports.getCaseTypes = getCaseTypes;
 module.exports.getCaseTypeDetailedInfo = getCaseTypeDetailedInfo;
+module.exports.getNumberOfCasesGroupedByLocalArea = getNumberOfCasesGroupedByLocalArea;
 
 module.exports.insertNewCase = insertNewCase;
 

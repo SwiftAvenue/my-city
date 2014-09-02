@@ -14,21 +14,23 @@
             <div class="row">
                 <div class="col-sm-4">
                     <div class="circle-text">
-                        <div>70%</div>
+                        <div>{{percentIssues}}%</div>
                     </div>
-                    <h4 class="text-center text-info">of issues reported<br/>against this area</h4>
+                    <h4 class="text-center text-info" popover="{{xx2}} cases of total {{xx1}}" popover-trigger="mouseenter">of issues reported<br/>against this area</h4>
                 </div>
                 <div class="col-sm-4">
                     <div class="circle-text">
-                        <div>1<sup>st</sup></div>
+                        <div>{{citizenFeedbackRanking}}%</div>
                     </div>
-                    <h4 class="text-center text-info">In Citizen Feedback</h4>
+                    <h4 class="text-center text-info" popover="{{tt2}} cases of total {{tt1}} in Citizen Feedback" popover-trigger="mouseenter">In Citizen Feedback</h4>
                 </div>
                 <div class="col-sm-4">
+                    <!--
                     <div class="circle-text">
                         <div>4<sup>th</sup></div>
                     </div>
                     <h4 class="text-center text-info">in issues reported<br/>recently</h4>
+                    -->
                 </div>
             </div>
 

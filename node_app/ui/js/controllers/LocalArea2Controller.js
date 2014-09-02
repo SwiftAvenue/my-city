@@ -1,99 +1,75 @@
 'use strict';
 
 angular.module('myCityApp').controller('LocalArea2Ctrl',
-    function($scope, $routeParams, $log, $filter, localAreaServices) {
+    function ($scope, $routeParams, $log, $filter, localAreaServices) {
 
-    $log.log("Selected local area: " + $routeParams.localArea);
+        $log.log("Selected local area: " + $routeParams.localArea);
 
-    $scope.currentLocalArea = $routeParams.localArea;
-    $scope.currentLocalAreaId = $routeParams.localAreaId;
+        $scope.currentLocalArea = $routeParams.localArea;
+        $scope.currentLocalAreaId = $routeParams.localAreaId;
 
-    $scope.grid = {
-        items: [],
-        currentPage: 1,
-        pageSize: 10,
-        maxSize: 10
+        $scope.grid = {
+            items: [],
+            currentPage: 1,
+            pageSize: 10,
+            maxSize: 10
         };
 
-    $scope.grid.items = localAreaServices.getCaseTypesForLocalArea($scope.currentLocalArea);
-
-    // charting used: http://chinmaymk.github.io/angular-charts/
-    // initialize the chart data
-    $scope.chartData = {
-       series: [],
-       data: []
-    }
-
-    $scope.chartConfig = {
-       labels: false,
-       title : "Case Type Monthly",
-       legend : {
-           display:true,
-           position:'left'
-       }
-    };
-
-    // chart type is line charts
-    $scope.chartType = 'line';
-
-    // get the chart data
-    $scope.monthlyCaseTypes = undefined;
-    localAreaServices.getMonthlyCaseTypesForLocalArea($scope.currentLocalArea)
-        .then( function(data) {
-            $scope.monthlyCaseTypes = data;
-            prepareTheChartData($scope.monthlyCaseTypes);
-        });
-
-    // Test data
-    //var ddd = [{"caseTypeId":"AbandonedGarbagePickupCityPropertyParks","caseTypeName":"Abandoned Garbage Pickup - City Property & Parks","month":"201402","numCases":31},{"caseTypeId":"AbandonedGarbagePickupCityPropertyParks","caseTypeName":"Abandoned Garbage Pickup - City Property & Parks","month":"201401","numCases":29},{"caseTypeId":"AbandonedVehicleRequest","caseTypeName":"Abandoned Vehicle Request","month":"201401","numCases":2},{"caseTypeId":"AbandonedVehicleRequest","caseTypeName":"Abandoned Vehicle Request","month":"201402","numCases":8},{"caseTypeId":"AnimalComplaintNonEmergencyCase","caseTypeName":"Animal Complaint - Non-Emergency Case","month":"201402","numCases":8},{"caseTypeId":"AnimalComplaintNonEmergencyCase","caseTypeName":"Animal Complaint - Non-Emergency Case","month":"201401","numCases":8},{"caseTypeId":"AnimalControlGeneralInquiryCase","caseTypeName":"Animal Control General Inquiry Case","month":"201402","numCases":5},{"caseTypeId":"AnimalControlGeneralInquiryCase","caseTypeName":"Animal Control General Inquiry Case","month":"201401","numCases":5},{"caseTypeId":"ApartmentRecyclingRegistrationRequest","caseTypeName":"Apartment Recycling - Registration Request","month":"201402","numCases":3},{"caseTypeId":"ApartmentRecyclingRegistrationRequest","caseTypeName":"Apartment Recycling - Registration Request","month":"201401","numCases":1}];
-
-    // set the series data (ie. a list of case types)
-    // var seriesData = _.uniq(_.pluck(ddd, 'caseTypeId'));
-
-    var prepareTheChartData = function(rawData) {
-        // TODO: get from user instead of hard coding it.
-        var seriesData = ['AbandonedGarbagePickupCityPropertyParks', 'AbandonedVehicleRequest', 'MissedRecyclingPickup'];
-        // var seriesData = _.uniq(_.pluck(rawData, 'caseTypeId'));
-        $log.log("List of case types: " + seriesData);
-
-        // set the x axis data (ie. the months such as '201401', '201402')
-        var xData = _.uniq(_.pluck(rawData, 'month'));
-        $log.log("List of months: " + xData);
-
-        // set the values for each x line, which is a value fo each of the series in that x line
-        var y = {};
-        _.each(xData, function(xItem) {
-            var yData1 = _.groupBy(_.where(rawData, {month: xItem}), 'casetypeid');
-            var t = [];
-            _.each(seriesData, function(sItem) {
-                // if case type not in current data, set value to 0
-                if (_.contains(_.keys(yData1), sItem)) {
-                    var yItem = yData1[sItem];
-                    $log.log("List of yData: " + sItem + ':' + yItem[0].caseTypeId + ' --> ' + yItem[0].numCases);
-                    t.push(yItem[0].numCases);
-                }
-                else {
-                    t.push(0);
-                }
+        localAreaServices.getCaseTypesForLocalArea($scope.currentLocalArea)
+            .then(function (data) {
+                $scope.grid.items = data;
             });
-            y[xItem] = t;
-        });
 
-        // tData represents the data structure expected by the chart data. Here we are preparing it.
-        var tData = [];
-        for (var k in y) {
-            var tt = {};
-            tt['x'] = k;
-            tt['y'] = y[k];
-            tData.push(tt);
-        }
+        localAreaServices.getNumberOfCasesGroupedByLocalArea()
+            .then(function (data) {
+                $scope.percentIssues = computePercentOfIssuesAgainstLocalArea($scope.currentLocalArea, data);
+                $scope.citizenFeedbackRanking = computeRankingInCitizenFeedback($scope.currentLocalArea, data);
+            });
 
-        $scope.chartData = {
-            series: seriesData,
-            data: tData
-        }
+        var computePercentOfIssuesAgainstLocalArea = function (localArea, data) {
+            // for using the _.reduce() function, see http://stackoverflow.com/questions/14984566/underscore-reduce-clarification
+            var totalNumCases = _.reduce(data, function (memo, item) {
+                return memo + item.numCases;
+            }, 0);
+            console.log("Total Number of Cases: " + totalNumCases);
+            $scope.xx1 = totalNumCases;
 
-        // $log.log("Size Chartdata.data[0].y=" + _.size($scope.chartData.data[0].y));
-    }
+            var totalNumCasesForLocalArea = _.chain(data)
+                .filter(function (item) {
+                    return (item.localAreaName === localArea);
+                }).reduce(function (memo, item) {
+                    return memo + item.numCases;
+                }, 0).value();
+            $scope.xx2 = totalNumCasesForLocalArea;
 
-});
+            console.log("Total Number of Cases for " + localArea + ": " + totalNumCasesForLocalArea);
+            return ((totalNumCasesForLocalArea / totalNumCases) * 100).toFixed(0);
+        };
+
+        var computeRankingInCitizenFeedback = function (localArea, data) {
+
+            // Chaining function from underscore: given case data,
+            // first filter entries whose case type is 'Citizen Feedback' (for all local areas)
+            // then use reduce() function to sum up the number of cases to get the total number of cases for this case type
+            var totalNumCasesInCitizenFeedback = _.chain(data)
+                .filter( function(item) {
+                    return (item.caseTypeName === 'Citizen Feedback');
+                }).reduce(function (memo, item) {
+                    return memo + item.numCases;
+                }, 0).value();
+            console.log("Total Number of Cases for Citizen Feedback: " + totalNumCasesInCitizenFeedback);
+            $scope.tt1 = totalNumCasesInCitizenFeedback;
+
+            var totalNumCasesInCitizenFeedbackForLocalArea = _.chain(data)
+                .filter( function(item) {
+                    return (item.caseTypeName === 'Citizen Feedback' && item.localAreaName === localArea);
+                }).reduce(function (memo, item) {
+                    return memo + item.numCases;
+                }, 0).value();
+            console.log("Total Number of Cases in Citizen Feedback for " + localArea + ": " + totalNumCasesInCitizenFeedbackForLocalArea);
+            $scope.tt2 = totalNumCasesInCitizenFeedbackForLocalArea;
+
+            return ((totalNumCasesInCitizenFeedbackForLocalArea / totalNumCasesInCitizenFeedback) * 100).toFixed(1);
+        };
+
+    });

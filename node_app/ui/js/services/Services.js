@@ -23,6 +23,13 @@ services.factory('localAreaServices', function ($resource, $q) {
             save: { method: 'POST' }
         }
     );
+
+    var casesGroupedByLocalAreaResource = $resource(baseUrl + 'case/summary', {},
+        {
+            get: { method: 'GET', isArray: true }
+        }
+    );
+
     var monthlyCaseTypesResource = $resource(baseUrl + 'case/summary/:localArea/m', {},
         {
             get: { method: 'GET', isArray: true }
@@ -42,7 +49,6 @@ services.factory('localAreaServices', function ($resource, $q) {
     );
 
     var caseTypeList = undefined;
-    var locAreaCaseTypes = undefined;
 
     return {
         getLocalAreaList: function () {
@@ -64,10 +70,13 @@ services.factory('localAreaServices', function ($resource, $q) {
         },
 
         getCaseTypesForLocalArea: function (locArea) {
-            locAreaCaseTypes = caseTypesLocalAreaResource.get({
+            var d = $q.defer();
+            caseTypesLocalAreaResource.get({
                 localArea: locArea
+            }, function (data) {
+                d.resolve(data);
             });
-            return locAreaCaseTypes;
+            return d.promise;
         },
 
         getMonthlyCaseTypesForLocalArea: function (locArea) {
@@ -96,6 +105,15 @@ services.factory('localAreaServices', function ($resource, $q) {
             caseTypeDetailedInfoResource.get({
                 caseTypeId: caseTypeId
             }, function (data) {
+                d.resolve(data);
+            });
+            return d.promise;
+        },
+
+        getNumberOfCasesGroupedByLocalArea: function() {
+            var d = $q.defer();
+            casesGroupedByLocalAreaResource.get({},
+                function (data) {
                 d.resolve(data);
             });
             return d.promise;
