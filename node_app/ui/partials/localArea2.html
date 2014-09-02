@@ -13,54 +13,73 @@
 
             <div class="row">
                 <div class="col-sm-4">
-                    <div class="circle-text"><div>70%</div></div>
+                    <div class="circle-text">
+                        <div>70%</div>
+                    </div>
                     <h4 class="text-center text-info">of issues reported<br/>against this area</h4>
                 </div>
                 <div class="col-sm-4">
-                    <div class="circle-text"><div>1<sup>st</sup></div></div>
+                    <div class="circle-text">
+                        <div>1<sup>st</sup></div>
+                    </div>
                     <h4 class="text-center text-info">In Citizen Feedback</h4>
                 </div>
                 <div class="col-sm-4">
-                    <div class="circle-text"><div>4<sup>th</sup></div></div>
+                    <div class="circle-text">
+                        <div>4<sup>th</sup></div>
+                    </div>
                     <h4 class="text-center text-info">in issues reported<br/>recently</h4>
                 </div>
             </div>
 
-        <h3>Summary of Reported Cases To Date</h3>
-        <table class="table table-condensed table-hover table-bordered table-striped">
-            <thead>
-            <tr ng-class="'header'">
-                <th style="width: 14px" class="no-wrap">Case Type</th>
-                <th style="width: 14px" class="no-wrap">Number of Cases</th>
-            </tr>
-            </thead>
-            <tr ng-repeat="ct in grid.items |
+            <div class="row">
+                <div class="col-sm-12">
+                </div>
+            </div>
+            <div class="col-sm-9"> <!-- x1 -->
+                <h3>Summary of Reported Cases To Date</h3>
+                <table class="table table-condensed table-hover table-bordered table-striped">
+                    <thead>
+                    <tr ng-class="'header'">
+                        <th style="width: 14px" class="no-wrap">Case Type</th>
+                        <th style="width: 14px" class="no-wrap">Number of Cases</th>
+                    </tr>
+                    </thead>
+                    <tr ng-repeat="ct in grid.items |
                                    startFrom:(grid.currentPage-1) * grid.pageSize |
                                    limitTo:grid.pageSize">
-                <td>
-                    <a href="#/local/{{currentLocalArea}}/{{currentLocalAreaId}}/{{ct.caseTypeId}}">{{ct.caseTypeName}}</a>
-                </td>
-                <td>{{ct.totalCases}}</td>
-            </tr>
-        </table>
-        <!-- All tab - pagination -->
-        <div pagination class="span8 text-center" style="margin-top: 0px;"
-             boundary-links="true"
-             total-items="grid.items.length"
-             max-size="grid.maxSize"
-             items-per-page="grid.pageSize"
-             page="grid.currentPage"
-             ng-model="curPage"
-             num-pages="numPages"
-             class="pagination-sm"
-             previous-text="&lsaquo;"
-             next-text="&rsaquo;"
-             first-text="&laquo;"
-             last-text="&raquo;">
+                        <td>
+                            <a href="#/local/{{currentLocalArea}}/{{currentLocalAreaId}}/{{ct.caseTypeId}}">{{ct.caseTypeName}}</a>
+                        </td>
+                        <td>{{ct.totalCases}}</td>
+                    </tr>
+                </table>
+                <!-- All tab - pagination -->
+                <div pagination class="span8 text-center" style="margin-top: 0px;"
+                     boundary-links="true"
+                     total-items="grid.items.length"
+                     max-size="grid.maxSize"
+                     items-per-page="grid.pageSize"
+                     page="grid.currentPage"
+                     ng-model="curPage"
+                     num-pages="numPages"
+                     class="pagination-sm"
+                     previous-text="&lsaquo;"
+                     next-text="&rsaquo;"
+                     first-text="&laquo;"
+                     last-text="&raquo;">
+                </div>
+            </div> <!-- x1 -->
+            <div class="col-sm-3"> <!-- x2 -->
+            </div> <!-- x2 -->
+
+            <div class="row">
+                <div class="col-sm-12">
+                    <div ng-include src="'partials/footer.html'"></div>
+                </div>
+
+            </div>
+
         </div>
-
-        <div ng-include src="'partials/footer.html'"></div>
-
     </div>
-</div>
 </div>
